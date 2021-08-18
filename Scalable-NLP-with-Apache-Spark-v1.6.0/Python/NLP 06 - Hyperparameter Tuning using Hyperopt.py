@@ -1,7 +1,5 @@
 # Databricks notebook source
-# MAGIC 
 # MAGIC %md-sandbox
-# MAGIC 
 # MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">
 # MAGIC   <img src="https://databricks.com/wp-content/uploads/2018/03/db-academy-rgb-1200px.png" alt="Databricks Learning" style="width: 600px">
 # MAGIC </div>
@@ -96,10 +94,10 @@ def create_lstm(hpo):
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
+# MAGIC %md
 # MAGIC ### Define Hyperopt's objective function
 # MAGIC 
-# MAGIC <img alt="Side Note" title="Side Note" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.05em; transform:rotate(15deg)" src="https://files.training.databricks.com/static/images/icon-note.webp"/> We need to import `tensorflow` within the function due to a pickling issue.  <a href="https://docs.databricks.com/applications/deep-learning/single-node-training/tensorflow.html#tensorflow-2-known-issues" target="_blank">See known issues here.</a>
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> We need to import `tensorflow` within the function due to a pickling issue.  <a href="https://docs.databricks.com/applications/deep-learning/single-node-training/tensorflow.html#tensorflow-2-known-issues" target="_blank">See known issues here.</a>
 
 # COMMAND ----------
 

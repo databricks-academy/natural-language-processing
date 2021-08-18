@@ -1,7 +1,5 @@
 # Databricks notebook source
-# MAGIC 
 # MAGIC %md-sandbox
-# MAGIC 
 # MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">
 # MAGIC   <img src="https://databricks.com/wp-content/uploads/2018/03/db-academy-rgb-1200px.png" alt="Databricks Learning" style="width: 600px">
 # MAGIC </div>
@@ -35,8 +33,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Load in our tokenized and processed DataFrame.
+# MAGIC %md Load in our tokenized and processed DataFrame.
 
 # COMMAND ----------
 
@@ -79,6 +76,7 @@ ngram_df = ngram_df.withColumn(
 
 display(ngram_df.select("ngrams"))
 
+
 # COMMAND ----------
 
 # MAGIC %md
@@ -102,8 +100,7 @@ display(ngram_dist)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC What do you notice about the frequent n-grams? Could they be important in text processing?
+# MAGIC %md What do you notice about the frequent n-grams? Could they be important in text processing?
 
 # COMMAND ----------
 
