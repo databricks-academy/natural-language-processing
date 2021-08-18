@@ -114,13 +114,6 @@ display(wv_df.select("Text", "word2vecEmbedding").limit(2))
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC // INSTRUCTOR_NOTE
-# MAGIC 
-# MAGIC When using SparkML, you cannot initialize the word2vec embeddings with a pre-trained model. It is actually more common to use gensim over SparkML so you can load in a pre-trained model, then do transfer learning on the pretrained model so it can work well with your domain specific corpus.
-
-# COMMAND ----------
-
 import gensim.downloader as api
 
 # Load GloVe
