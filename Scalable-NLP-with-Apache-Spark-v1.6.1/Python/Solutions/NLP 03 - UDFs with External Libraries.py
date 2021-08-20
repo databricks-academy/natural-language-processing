@@ -112,7 +112,8 @@ display(stemmedDF.select("StemTokens", "CleanTokens").limit(2))
 
 # COMMAND ----------
 
-# MAGIC %md ### Vectorized UDF
+# MAGIC %md
+# MAGIC ### Vectorized UDF
 # MAGIC 
 # MAGIC As of Spark 2.3, there are Vectorized UDFs available in Python to help speed up the computation.
 # MAGIC 

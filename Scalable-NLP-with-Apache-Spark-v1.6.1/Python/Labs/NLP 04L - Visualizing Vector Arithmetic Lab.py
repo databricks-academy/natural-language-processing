@@ -90,27 +90,7 @@ plt.gcf().clear()
 
 # COMMAND ----------
 
-# TODO
-
-# Plots 4 vectors from graph above
-plot_vectors(vectors, words, "Visualizing 'woman+king-man'")
-
-# Woman + king
-w_plus_k = # FILL_IN
-# Woman + king - man
-w_plus_k_minus_m = # FILL_IN
-
-# formats new vectors and texts in graph
-# w_plus_k
-plt.quiver(0, 0, w_plus_k[0], w_plus_k[1], angles='xy', scale_units='xy', scale=1, color = "blue")
-plt.text(w_plus_k[0]+0.1, w_plus_k[1], "woman+king")
-# w_plus_k_minus_m
-plt.quiver(w_plus_k[0], w_plus_k[1], w_plus_k_minus_m[0]-w_plus_k[0], w_plus_k_minus_m[1]-w_plus_k[1],
-           angles='xy', scale_units='xy', scale=1, color = "red")
-plt.text(w_plus_k_minus_m[0]+0.1, w_plus_k_minus_m[1]+0.05, "(woman+king)-man")
-
-plt.show()
-plt.gcf().clear()
+# TODO# Plots 4 vectors from graph aboveplot_vectors(vectors, words, "Visualizing 'woman+king-man'")# Woman + kingw_plus_k = # FILL_IN# Woman + king - manw_plus_k_minus_m = # FILL_IN# formats new vectors and texts in graph# w_plus_kplt.quiver(0, 0, w_plus_k[0], w_plus_k[1], angles='xy', scale_units='xy', scale=1, color = "blue")plt.text(w_plus_k[0]+0.1, w_plus_k[1], "woman+king")# w_plus_k_minus_mplt.quiver(w_plus_k[0], w_plus_k[1], w_plus_k_minus_m[0]-w_plus_k[0], w_plus_k_minus_m[1]-w_plus_k[1],           angles='xy', scale_units='xy', scale=1, color = "red")plt.text(w_plus_k_minus_m[0]+0.1, w_plus_k_minus_m[1]+0.05, "(woman+king)-man")plt.show()plt.gcf().clear()
 
 
 # COMMAND ----------
@@ -144,18 +124,7 @@ word_vectors.similarity("queen", "king")
 
 # COMMAND ----------
 
-# TODO
-import numpy as np
-
-def cos_similarity(v1, v2):
-  return # FILL_IN
-
-word1 = "queen"
-word2 = "king"
-ans = cos_similarity(word_vectors[word1], word_vectors[word2])
-print(ans)
-
-assert round(ans, 3) == round(word_vectors.similarity(word1, word2), 3), "Your answer does not match Gensim's"
+# TODOimport numpy as npdef cos_similarity(v1, v2):  return # FILL_INword1 = "queen"word2 = "king"ans = cos_similarity(word_vectors[word1], word_vectors[word2])print(ans)assert round(ans, 3) == round(word_vectors.similarity(word1, word2), 3), "Your answer does not match Gensim's"
 
 
 # COMMAND ----------
@@ -167,13 +136,7 @@ assert round(ans, 3) == round(word_vectors.similarity(word1, word2), 3), "Your a
 
 # COMMAND ----------
 
-# TODO
-
-def most_similar(w, words):
-  # FILL_IN
-  return # FILL_IN
-
-most_similar("queen", ["king", "woman", "man", "princess"])
+# TODOdef most_similar(w, words):  # FILL_IN  return # FILL_INmost_similar("queen", ["king", "woman", "man", "princess"])
 
 
 # COMMAND ----------

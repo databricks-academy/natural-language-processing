@@ -188,7 +188,7 @@ display(stemmedDF.select("StemTokens", "CleanTokens").limit(2))
 # MAGIC %md
 # MAGIC ### Lab: Lemmatizing UDF
 # MAGIC 
-# MAGIC Now that you have seen the examples of stemming words using a UDF, a pandas UDF and also a scalar iterator UDF. It's your turn to write a UDF of any type that lemmatizes words! 
+# MAGIC Now that you have seen the examples of stemming words using a UDF, a pandas UDF and also a scalar iterator UDF. It's your turn to write a UDF of any type that lemmatizes words!
 
 # COMMAND ----------
 

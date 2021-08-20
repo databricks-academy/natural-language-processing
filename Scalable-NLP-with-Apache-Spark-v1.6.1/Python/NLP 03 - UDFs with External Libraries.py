@@ -112,7 +112,8 @@ display(stemmedDF.select("StemTokens", "CleanTokens").limit(2))
 
 # COMMAND ----------
 
-# MAGIC %md ### Vectorized UDF
+# MAGIC %md
+# MAGIC ### Vectorized UDF
 # MAGIC 
 # MAGIC As of Spark 2.3, there are Vectorized UDFs available in Python to help speed up the computation.
 # MAGIC 
@@ -190,50 +191,17 @@ display(stemmedDF.select("StemTokens", "CleanTokens").limit(2))
 
 # COMMAND ----------
 
-# TODO 
-### Method 1 without using pandas_udf
-
-@udf(ArrayType(StringType()))
-def lemma_udf(tokens):
-  nltk.download("wordnet")
-  lemmatizer = WordNetLemmatizer()
-  return # FILL_IN
-
-# add LemmaTokens column
-lemmaDF = processedDF.withColumn("LemmaTokens", lemma_udf(col("CleanTokens")))
-display(lemmaDF.select("Tokens", "LemmaTokens").limit(2))
+# TODO ### Method 1 without using pandas_udf@udf(ArrayType(StringType()))def lemma_udf(tokens):  nltk.download("wordnet")  lemmatizer = WordNetLemmatizer()  return # FILL_IN# add LemmaTokens columnlemmaDF = processedDF.withColumn("LemmaTokens", lemma_udf(col("CleanTokens")))display(lemmaDF.select("Tokens", "LemmaTokens").limit(2))
 
 
 # COMMAND ----------
 
-# TODO
-### Method 2 using pandas_udf
-
-@pandas_udf(ArrayType(StringType()))
-def lemma_udf(tokens_batch: pd.Series) -> pd.Series:
-  nltk.download("wordnet")
-  lemmatizer = WordNetLemmatizer()
-  return # FILL_IN
-
-# add LemmaTokens column
-lemmaDF = processedDF.withColumn("LemmaTokens", lemma_udf(col("CleanTokens")))
-display(lemmaDF.select("LemmaTokens", "Tokens").limit(2))
+# TODO### Method 2 using pandas_udf@pandas_udf(ArrayType(StringType()))def lemma_udf(tokens_batch: pd.Series) -> pd.Series:  nltk.download("wordnet")  lemmatizer = WordNetLemmatizer()  return # FILL_IN# add LemmaTokens columnlemmaDF = processedDF.withColumn("LemmaTokens", lemma_udf(col("CleanTokens")))display(lemmaDF.select("LemmaTokens", "Tokens").limit(2))
 
 
 # COMMAND ----------
 
-# TODO
-### Method 3 using scalar iterator udf
-
-@pandas_udf(ArrayType(StringType()))
-def lemma_scalar_udf(iterator: Iterator[pd.Series]) -> Iterator[pd.Series]:
-  nltk.download("wordnet")
-  lemmatizer = WordNetLemmatizer()
-  yield # FILL_IN
-    
-## add LemmaTokens column
-lemmaDF = processedDF.withColumn("LemmaTokens", lemma_scalar_udf(col("CleanTokens")))
-display(lemmaDF.select("LemmaTokens", "Tokens").limit(2))
+# TODO### Method 3 using scalar iterator udf@pandas_udf(ArrayType(StringType()))def lemma_scalar_udf(iterator: Iterator[pd.Series]) -> Iterator[pd.Series]:  nltk.download("wordnet")  lemmatizer = WordNetLemmatizer()  yield # FILL_IN    ## add LemmaTokens columnlemmaDF = processedDF.withColumn("LemmaTokens", lemma_scalar_udf(col("CleanTokens")))display(lemmaDF.select("LemmaTokens", "Tokens").limit(2))
 
 
 # COMMAND ----------
