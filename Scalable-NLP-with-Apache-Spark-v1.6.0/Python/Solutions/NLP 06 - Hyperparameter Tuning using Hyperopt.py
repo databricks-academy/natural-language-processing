@@ -163,22 +163,21 @@ best_hyperparam
 
 # COMMAND ----------
 
-# TODO
+# ANSWER
 
 ### First modify the model 
 def create_lstm(hpo):
   inputs = keras.Input(shape=(None,), dtype="int32")
-  x = layers.Embedding(vocab_size, <# FILL_IN)(inputs)
-  x = layers.Bidirectional(layers.LSTM(# FILL_IN, return_sequences=True))(x)
-  x = layers.Bidirectional(layers.LSTM(# FILL_IN))(x)
+  x = layers.Embedding(vocab_size, int(hpo["embedding_dim"]))(inputs)
+  x = layers.Bidirectional(layers.LSTM(int(hpo["lstm_out"])))(x)
   outputs = layers.Dense(1, activation="sigmoid")(x)
   model = keras.Model(inputs, outputs)
   return model
 
 ### Then modify the search space 
 space = {
-  "embedding_size": # FILL_IN,
-  "lstm_size": # FILL_IN,
+  "embedding_size": hp.quniform("embedding_size", 40, 256, 1),
+  "lstm_size": hp.quniform("lstm_size", 20, 150, 1),
   "num_epoch": hp.quniform("num_epoch", 1, 5, 1),
   "learning_rate": hp.loguniform("learning_rate", np.log(1e-4), 0), ## max is 1 because exp(0) is 1, added np.log to prevent exp() resulting in negative values
   "optimizer": hp.choice("optimizer", ["Adadelta", "Adam"])

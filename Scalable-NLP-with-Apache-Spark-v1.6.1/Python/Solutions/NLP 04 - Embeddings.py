@@ -1,7 +1,5 @@
 # Databricks notebook source
-# MAGIC 
 # MAGIC %md-sandbox
-# MAGIC 
 # MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">
 # MAGIC   <img src="https://databricks.com/wp-content/uploads/2018/03/db-academy-rgb-1200px.png" alt="Databricks Learning" style="width: 600px">
 # MAGIC </div>
@@ -224,8 +222,7 @@ plt.show()
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Let's try some more examples.
+# MAGIC %md Let's try some more examples.
 
 # COMMAND ----------
 
@@ -295,8 +292,7 @@ display(processed_df.limit(2))
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now build a vector of the words in the description. Since `pandas_udf` does not currently support `VectorUDT` type, we will be using regular `udf`.
+# MAGIC %md Now build a vector of the words in the description. Since `pandas_udf` does not currently support `VectorUDT` type, we will be using regular `udf`.
 
 # COMMAND ----------
 
@@ -325,7 +321,7 @@ display(vectorized_df.limit(2))
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md 
 # MAGIC Finally, we compute semantic similarity (ie. cosine) of the review vector to our target vector.
 # MAGIC Sorting by decreasing similarity scores should display the most relevant results at the top of the list.
 

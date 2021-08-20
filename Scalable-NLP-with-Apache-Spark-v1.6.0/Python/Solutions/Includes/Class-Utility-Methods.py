@@ -1,5 +1,4 @@
 # Databricks notebook source
-# Class Utility Methods
 
 #############################################
 # TAG API FUNCTIONS
@@ -98,43 +97,43 @@ latestDbrMajor = 8
 latestDbrMinor = 4
 
 # Assert an appropriate Databricks Runtime version
-# def assertDbrVersion(
-#     expected: str,
-#     latestMajor: int = latestDbrMajor,
-#     latestMinor: int = latestDbrMinor,
-#     display: bool = True,
-# ):
+def assertDbrVersion(
+    expected: str,
+    latestMajor: int = latestDbrMajor,
+    latestMinor: int = latestDbrMinor,
+    display: bool = True,
+):
 
-#     expMajor = latestMajor
-#     expMinor = latestMinor
+    expMajor = latestMajor
+    expMinor = latestMinor
 
-#     if expected and expected != FILL_IN:
-#         expMajor = int(expected.split(".")[0])
-#         expMinor = int(expected.split(".")[1])
+    if expected and expected != "{{dbr}}":
+        expMajor = int(expected.split(".")[0])
+        expMinor = int(expected.split(".")[1])
 
-#     (major, minor) = getDbrMajorAndMinorVersions()
+    (major, minor) = getDbrMajorAndMinorVersions()
 
-#     if (major < expMajor) or (major == expMajor and minor < expMinor):
-#         msg = f"This notebook must be run on DBR {expMajor}.{expMinor} or newer. Your cluster is using {major}.{minor}. You must update your cluster configuration before proceeding."
+    if (major < expMajor) or (major == expMajor and minor < expMinor):
+        msg = f"This notebook must be run on DBR {expMajor}.{expMinor} or newer. Your cluster is using {major}.{minor}. You must update your cluster configuration before proceeding."
 
-#         raise AssertionError(msg)
+        raise AssertionError(msg)
 
-#     if major != expMajor or minor != expMinor:
-#         html = f"""
-#       <div style="color:red; font-weight:bold">WARNING: This notebook was tested on DBR {expMajor}.{expMinor}, but we found DBR {major}.{minor}.</div>
-#       <div style="font-weight:bold">Using an untested DBR may yield unexpected results and/or various errors</div>
-#       <div style="font-weight:bold">Please update your cluster configuration and/or <a href="https://academy.databricks.com/" target="_blank">download a newer version of this course</a> before proceeding.</div>
-#     """
+    if major != expMajor or minor != expMinor:
+        html = f"""
+      <div style="color:red; font-weight:bold">WARNING: This notebook was tested on DBR {expMajor}.{expMinor}, but we found DBR {major}.{minor}.</div>
+      <div style="font-weight:bold">Using an untested DBR may yield unexpected results and/or various errors</div>
+      <div style="font-weight:bold">Please update your cluster configuration and/or <a href="https://academy.databricks.com/" target="_blank">download a newer version of this course</a> before proceeding.</div>
+    """
 
-#     else:
-#         html = f"Running on <b>DBR {major}.{minor}</b>"
+    else:
+        html = f"Running on <b>DBR {major}.{minor}</b>"
 
-#     if display:
-#         displayHTML(html)
-#     else:
-#         print(html)
+    if display:
+        displayHTML(html)
+    else:
+        print(html)
 
-#     return f"{major}.{minor}"
+    return f"{major}.{minor}"
 
 
 ############################################
@@ -174,7 +173,7 @@ def createUserDatabase(
 
 
 #############################################
-# Legacy Testing Functions
+# LEGACY TESTING FUNCTIONS
 #############################################
 
 # Test results dict to store results
@@ -400,3 +399,4 @@ class FILL_IN:
 
 
 displayHTML("Defining courseware-specific utility methods...")
+

@@ -1,7 +1,5 @@
 # Databricks notebook source
-# MAGIC 
 # MAGIC %md-sandbox
-# MAGIC 
 # MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">
 # MAGIC   <img src="https://databricks.com/wp-content/uploads/2018/03/db-academy-rgb-1200px.png" alt="Databricks Learning" style="width: 600px">
 # MAGIC </div>
@@ -96,10 +94,10 @@ def create_lstm(hpo):
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
+# MAGIC %md
 # MAGIC ### Define Hyperopt's objective function
 # MAGIC 
-# MAGIC <img alt="Side Note" title="Side Note" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.05em; transform:rotate(15deg)" src="https://files.training.databricks.com/static/images/icon-note.webp"/> We need to import `tensorflow` within the function due to a pickling issue.  <a href="https://docs.databricks.com/applications/deep-learning/single-node-training/tensorflow.html#tensorflow-2-known-issues" target="_blank">See known issues here.</a>
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> We need to import `tensorflow` within the function due to a pickling issue.  <a href="https://docs.databricks.com/applications/deep-learning/single-node-training/tensorflow.html#tensorflow-2-known-issues" target="_blank">See known issues here.</a>
 
 # COMMAND ----------
 
@@ -163,27 +161,25 @@ best_hyperparam
 
 # COMMAND ----------
 
-# TODO
+# ANSWER
 
 ### First modify the model 
 def create_lstm(hpo):
   inputs = keras.Input(shape=(None,), dtype="int32")
-  x = layers.Embedding(vocab_size, <# FILL_IN)(inputs)
-  x = layers.Bidirectional(layers.LSTM(# FILL_IN, return_sequences=True))(x)
-  x = layers.Bidirectional(layers.LSTM(# FILL_IN))(x)
+  x = layers.Embedding(vocab_size, int(hpo["embedding_dim"]))(inputs)
+  x = layers.Bidirectional(layers.LSTM(int(hpo["lstm_out"])))(x)
   outputs = layers.Dense(1, activation="sigmoid")(x)
   model = keras.Model(inputs, outputs)
   return model
 
 ### Then modify the search space 
 space = {
-  "embedding_size": # FILL_IN,
-  "lstm_size": # FILL_IN,
+  "embedding_size": hp.quniform("embedding_size", 40, 256, 1),
+  "lstm_size": hp.quniform("lstm_size", 20, 150, 1),
   "num_epoch": hp.quniform("num_epoch", 1, 5, 1),
   "learning_rate": hp.loguniform("learning_rate", np.log(1e-4), 0), ## max is 1 because exp(0) is 1, added np.log to prevent exp() resulting in negative values
   "optimizer": hp.choice("optimizer", ["Adadelta", "Adam"])
  }
-
 
 # COMMAND ----------
 

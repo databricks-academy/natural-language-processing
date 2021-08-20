@@ -1,7 +1,5 @@
 # Databricks notebook source
-# MAGIC 
 # MAGIC %md-sandbox
-# MAGIC 
 # MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">
 # MAGIC   <img src="https://databricks.com/wp-content/uploads/2018/03/db-academy-rgb-1200px.png" alt="Databricks Learning" style="width: 600px">
 # MAGIC </div>
@@ -238,11 +236,14 @@ display(pred_df)
 
 # COMMAND ----------
 
-# TODO 
-with mlflow.start_run(run_id=# FILL_IN, experiment_id=# FILL_IN):
-  mlflow.log_params({"data_path": # FILL_IN})
-  mlflow.set_tag("team", "# FILL_IN")
-
+# ANSWER
+with mlflow.start_run(run_id=run.info.run_id, experiment_id=run.info.experiment_id):
+  mlflow.log_params({"data_path": "dbfs:/mnt/training/reviews/reviews_cleaned.parquet",
+                     "max_vocab_size": vocab_size,
+                     "max_length": max_length,
+                     "embedding_dim": embedding_dim,
+                     "lstm_out": lstm_out})
+  mlflow.set_tag("team", "NLP")
 
 # COMMAND ----------
 

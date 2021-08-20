@@ -10,7 +10,7 @@
 # MAGIC 
 # MAGIC * Name: **Scalable NLP with Apache Spark**
 # MAGIC * Version:  **1.6.1**
-# MAGIC * Built On: **Aug 18, 2021 at 22:22:35 UTC**
+# MAGIC * Built On: **Aug 20, 2021 at 18:09:12 UTC**
 
 # COMMAND ----------
 

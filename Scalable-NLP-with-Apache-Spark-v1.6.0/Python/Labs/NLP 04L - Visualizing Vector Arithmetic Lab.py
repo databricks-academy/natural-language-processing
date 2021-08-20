@@ -1,5 +1,7 @@
 # Databricks notebook source
+# MAGIC 
 # MAGIC %md-sandbox
+# MAGIC 
 # MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">
 # MAGIC   <img src="https://databricks.com/wp-content/uploads/2018/03/db-academy-rgb-1200px.png" alt="Databricks Learning" style="width: 600px">
 # MAGIC </div>
@@ -23,7 +25,8 @@
 
 # COMMAND ----------
 
-# MAGIC %md We need the gensim library to load in the pretrained GloVe vectors again.
+# MAGIC %md
+# MAGIC We need the gensim library to load in the pretrained GloVe vectors again.
 
 # COMMAND ----------
 
@@ -34,7 +37,8 @@ word_vectors = api.load("glove-wiki-gigaword-100")
 
 # COMMAND ----------
 
-# MAGIC %md We are going to recreate the DataFrame and graph showcasing the embeddings of the words "man", "woman", "king", and "queen."
+# MAGIC %md
+# MAGIC We are going to recreate the DataFrame and graph showcasing the embeddings of the words "man", "woman", "king", and "queen."
 
 # COMMAND ----------
 
@@ -111,7 +115,6 @@ plt.text(w_plus_k_minus_m[0]+0.1, w_plus_k_minus_m[1]+0.05, "(woman+king)-man")
 plt.show()
 plt.gcf().clear()
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -156,7 +159,6 @@ print(ans)
 
 assert round(ans, 3) == round(word_vectors.similarity(word1, word2), 3), "Your answer does not match Gensim's"
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -173,7 +175,6 @@ def most_similar(w, words):
   return # FILL_IN
 
 most_similar("queen", ["king", "woman", "man", "princess"])
-
 
 # COMMAND ----------
 
