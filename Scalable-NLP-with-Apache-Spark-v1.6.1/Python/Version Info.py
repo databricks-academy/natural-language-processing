@@ -1,5 +1,4 @@
 # Databricks notebook source
-# MAGIC 
 # MAGIC %md-sandbox
 # MAGIC 
 # MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">
@@ -12,7 +11,7 @@
 # MAGIC 
 # MAGIC * Name: **Scalable NLP with Apache Spark**
 # MAGIC * Version:  **1.6.1**
-# MAGIC * Built On: **Aug 20, 2021 at 19:01:34 UTC**
+# MAGIC * Built On: **Aug 20, 2021 at 19:12:01 UTC**
 
 # COMMAND ----------
 

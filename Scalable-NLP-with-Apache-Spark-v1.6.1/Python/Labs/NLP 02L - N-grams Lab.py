@@ -55,7 +55,27 @@ processed_df = spark.read.parquet("/mnt/training/reviews/tfidf.parquet")
 
 # COMMAND ----------
 
-# TODO# Apply n-grams to processed DataFramefrom pyspark.ml.feature import NGramfrom pyspark.sql.functions import concat, colngram_df = processed_df.select("Text", "Tokens", "CleanTokens")# Create the ngram2 and ngram3 transformersngram2 = NGram(n=FILL_THIS_IN, inputCol="CleanTokens", outputCol=FILL_THIS_IN)ngram3 = NGram(n=FILL_THIS_IN, inputCol="CleanTokens", outputCol=FILL_THIS_IN)# Perform the transformationngram_df = ngram2 FILL_THIS_INngram_df = ngram3 FILL_THIS_IN# Combine tokens, bigrams, and trigramsngram_df = ngram_df.withColumn(    "ngrams", concat(col("tokens"), col("ngrams2"), col("ngrams3")))display(ngram_df.select("ngrams"))
+# TODO
+# Apply n-grams to processed DataFrame
+from pyspark.ml.feature import NGram
+from pyspark.sql.functions import concat, col
+
+ngram_df = processed_df.select("Text", "Tokens", "CleanTokens")
+
+# Create the ngram2 and ngram3 transformers
+ngram2 = NGram(n=FILL_THIS_IN, inputCol="CleanTokens", outputCol=FILL_THIS_IN)
+ngram3 = NGram(n=FILL_THIS_IN, inputCol="CleanTokens", outputCol=FILL_THIS_IN)
+
+# Perform the transformation
+ngram_df = ngram2 FILL_THIS_IN
+ngram_df = ngram3 FILL_THIS_IN
+
+# Combine tokens, bigrams, and trigrams
+ngram_df = ngram_df.withColumn(
+    "ngrams", concat(col("tokens"), col("ngrams2"), col("ngrams3"))
+)
+
+display(ngram_df.select("ngrams"))
 
 
 # COMMAND ----------
