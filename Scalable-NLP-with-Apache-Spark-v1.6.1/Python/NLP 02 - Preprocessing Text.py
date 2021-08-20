@@ -7,7 +7,8 @@
 
 # COMMAND ----------
 
-# MAGIC %md # Pre-Processing Text at Scale
+# MAGIC %md
+# MAGIC # Pre-Processing Text at Scale
 # MAGIC 
 # MAGIC This lesson introduces basic text processing steps using distributed libraries like SparkML.
 # MAGIC 
@@ -139,7 +140,8 @@ text_pdf = text_df.toPandas()
 
 # COMMAND ----------
 
-# MAGIC %md Now we will use Pandas' `.apply()` method to append a column, "Tokens", containing the result of calling `.split()` on each review in the "Text" column.
+# MAGIC %md
+# MAGIC Now we will use Pandas' `.apply()` method to append a column, "Tokens", containing the result of calling `.split()` on each review in the "Text" column.
 
 # COMMAND ----------
 
