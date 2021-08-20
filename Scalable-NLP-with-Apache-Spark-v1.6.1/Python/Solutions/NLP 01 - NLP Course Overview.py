@@ -1,5 +1,6 @@
 # Databricks notebook source
 # MAGIC %md-sandbox
+# MAGIC 
 # MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">
 # MAGIC   <img src="https://databricks.com/wp-content/uploads/2018/03/db-academy-rgb-1200px.png" alt="Databricks Learning" style="width: 600px">
 # MAGIC </div>
@@ -135,12 +136,14 @@ display(text_df.groupBy("Score").count().sort(col("count").desc()))
 
 # COMMAND ----------
 
-# MAGIC %md ### Data Skew
+# MAGIC %md
+# MAGIC ### Data Skew
 # MAGIC Wow! We have quite a bit of data skew here! Most of the entries are 5 and 4 star reviews, and 1 star reviews are more prevalent than 2 or 3 star reviews (is that in alignment with how you rate things?). We will discuss various ways to deal with this later.
 
 # COMMAND ----------
 
-# MAGIC %md ### Wordcloud
+# MAGIC %md
+# MAGIC ### Wordcloud
 # MAGIC 
 # MAGIC Now we're going to take a look at the data inside the text column. A good way to visualize a corpus of words is by creating a [wordcloud](https://en.m.wikipedia.org/wiki/Tag_cloud)! A wordcloud will create an image with more frequently appearing words larger and closer to the center than words that appear less frequently in the text.
 # MAGIC 
