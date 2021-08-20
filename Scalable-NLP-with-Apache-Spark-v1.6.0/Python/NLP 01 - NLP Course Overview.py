@@ -207,7 +207,6 @@ wordcloud_draw(list_texts[row][0], list_texts[row][1], "gray")
 row = 2
 wordcloud_draw(list_texts[row][0], list_texts[row][1], "black")
 
-
 # COMMAND ----------
 
 # MAGIC %md-sandbox
