@@ -7,7 +7,6 @@
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC # Pre-Processing Text at Scale
 # MAGIC 
@@ -22,12 +21,10 @@
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %run ./Includes/Classroom-Setup
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC ## Distributed Libraries
 # MAGIC 
@@ -42,7 +39,6 @@
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC ## Tokenize
 # MAGIC 
@@ -52,12 +48,10 @@
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC ### Tokenizing using Python's `.split()`
 
 # COMMAND ----------
-
 
 sentence = "We are tokenizing this sentence using Python string's .split() method!"
 
@@ -67,7 +61,6 @@ print(f"Tokenized Sentence: {sentence.split()}")
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC ### Tokenizing using SparkML
 # MAGIC 
@@ -82,7 +75,6 @@ print(f"Tokenized Sentence: {sentence.split()}")
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC In our reviews dataset, there are a couple of places where the html text, `<\ br>`, shows up. The presence of this string doesn't contribute to the meaning of the text, so we don't want to include it as a token. Since punctuation within a short reviews text is not super important, we are simply going to use the `RegexTokenizer` with the regex string `\\W` which indicates we only want to keep alphanumeric tokens, removing all punctuations as well. If we used the `Tokenizer` instead, it will split up the html string, `<\ br>`, into 2 different tokens as it tries to optimize around the `<` and `>` punctuation marks, making its removal more difficult later on.
 # MAGIC 
@@ -95,7 +87,6 @@ print(f"Tokenized Sentence: {sentence.split()}")
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC 
 # MAGIC First read in the `textDF` DataFrame.
@@ -104,21 +95,18 @@ print(f"Tokenized Sentence: {sentence.split()}")
 
 # COMMAND ----------
 
-
 text_df = spark.read.parquet("/mnt/training/reviews/reviews_cleaned.parquet")
 display(text_df)
 
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC Run the following cell to apply the `RegexTokenizer` transformer to our text column!
 # MAGIC 
 # MAGIC A transformer has a `.transform()` method which converts one DataFrame into another, usually by appending one or more columns. In our specific case, the `RegexTokenizer` will use the `inputCol="Text"` column of the `textDF` that we give it to return a new DataFrame which is `textDF` with an additional column named `outputCol="Tokens"` containing the tokens of our text.
 
 # COMMAND ----------
-
 
 from pyspark.ml.feature import Tokenizer, RegexTokenizer
 
@@ -132,7 +120,6 @@ display(tokenized_df.limit(20))
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC ### Comparison between SparkML's Tokenizer and Python's .split()
 # MAGIC 
@@ -142,31 +129,26 @@ display(tokenized_df.limit(20))
 
 # COMMAND ----------
 
-
 # using SparkML
 spark_df = tokenizer.transform(text_df)
 
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC To achieve the same result using Python's `.split()` in series, we have to first convert our Spark DataFrame to a Pandas DataFrame which we call `textPDF`. 
 
 # COMMAND ----------
-
 
 text_pdf = text_df.toPandas()
 
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC Now we will use Pandas' `.apply()` method to append a column, "Tokens", containing the result of calling `.split()` on each review in the "Text" column.
 
 # COMMAND ----------
-
 
 # using Python's .split
 text_pdf["Tokens"] = text_pdf["Text"].apply(lambda text: text.split())
@@ -174,7 +156,6 @@ text_pdf["Tokens"] = text_pdf["Text"].apply(lambda text: text.split())
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC Take a look at the execution times of using SparkML and of using `.split()`. Wow, was SparkML really that much faster than using Python in series? Not necessarily.
 # MAGIC 
@@ -184,12 +165,10 @@ text_pdf["Tokens"] = text_pdf["Text"].apply(lambda text: text.split())
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC After tokenizing our text, we can now take a look at the distribution of words in our dataset. Below are the top 25 most commonly occurring tokens.
 
 # COMMAND ----------
-
 
 from pyspark.sql.functions import explode, col
 
@@ -205,14 +184,12 @@ display(word_dist.limit(30))
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC 
 # MAGIC A quick glance at these "top" words reveals that most of the reviews are filled with many terms that do not necessarily add value to the content of the text (e.g. `the`, `is`, etc). The html text `br` even shows up as one of the top 10 tokens! In the following cells, we will learn how to handle this.
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC ## Stopwords Remover
 # MAGIC 
@@ -222,12 +199,10 @@ display(word_dist.limit(30))
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC ### Setting Default and Custom Stopwords
 
 # COMMAND ----------
-
 
 from pyspark.ml.feature import StopWordsRemover
 
@@ -238,13 +213,11 @@ print(f"Our stopwords:\n {stop_words}")
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC 
 # MAGIC Now use SparkML's `StopWordsRemover` to remove all instances of `stopWords` from our dataset and take a look at the resulting token distribution.
 
 # COMMAND ----------
-
 
 stopwords_remover = StopWordsRemover(inputCol="Tokens", outputCol="CleanTokens", stopWords=stop_words)
 processed_df = stopwords_remover.transform(tokenized_df)
@@ -262,14 +235,12 @@ display(word_dist_new.limit(10))
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC 
 # MAGIC Now the most frequently appearing words are more meaningful to us and we can move on to some more advanced preprocessing steps. We could continue to refine this stopword list (e.g. remove `m`), but let's continue.
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC ## Term Frequency-Inverse Document Frequency
 # MAGIC 
@@ -303,7 +274,6 @@ display(word_dist_new.limit(10))
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC ### Using SparkML to calculate TF-IDF scores
 # MAGIC You can access the [documentation guide](https://spark.apache.org/docs/latest/ml-features.html#tf-idf) for a more detailed description, but the high level steps are outlined below.
@@ -322,12 +292,10 @@ display(word_dist_new.limit(10))
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC ## Creating TF-IDF Feature Vectors for each row
 
 # COMMAND ----------
-
 
 from pyspark.ml import Pipeline
 from pyspark.ml.feature import HashingTF, IDF, Tokenizer, Normalizer
@@ -346,7 +314,6 @@ display(tfidf_df.drop("Tokens").limit(10))
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC Take a look at the `TFIDFScoreNorm` column of the DataFrame which contains an alternate way for us to represent our text. Instead of referring to the texts as strings we can now use these high dimensional vectors.
 

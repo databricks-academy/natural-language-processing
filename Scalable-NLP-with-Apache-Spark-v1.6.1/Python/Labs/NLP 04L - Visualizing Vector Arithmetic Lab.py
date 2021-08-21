@@ -7,7 +7,6 @@
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC #  Visualizing Vector Arithmetic Lab
 # MAGIC 
@@ -17,21 +16,17 @@
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %pip install gensim==4.0
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %run ../Includes/Classroom-Setup
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md We need the gensim library to load in the pretrained GloVe vectors again.
 
 # COMMAND ----------
-
 
 import gensim.downloader as api
 
@@ -41,11 +36,9 @@ word_vectors = api.load("glove-wiki-gigaword-100")
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md We are going to recreate the DataFrame and graph showcasing the embeddings of the words "man", "woman", "king", and "queen."
 
 # COMMAND ----------
-
 
 import matplotlib.pyplot as plt
 from pyspark.ml.feature import PCA
@@ -86,7 +79,6 @@ plt.gcf().clear()
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC Now we want to be able to visualize the vector arithmetic involved with the `word_vectors.most_similar(positive=['woman', 'king'], negative=['man'])` call. The call will return the word with the embedding which is closest to the vector resulting from adding the embeddings in `positive` and subtracting the embeddings in `negative`.
 # MAGIC 
@@ -99,7 +91,6 @@ plt.gcf().clear()
 # MAGIC and run the cell to plot the original 4 vectors with the 2 newly calculated vectors.
 
 # COMMAND ----------
-
 
 TODO
 
@@ -126,7 +117,6 @@ plt.gcf().clear()
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC Even though we reduced the embeddings down to 2 dimensions, what word does the resulting embedding still look the closest to? Does this match the answer that `word_vectors.most_similar(positive=['woman', 'king'], negative=['man'])` returns?
 # MAGIC 
@@ -134,7 +124,6 @@ plt.gcf().clear()
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC 
 # MAGIC Now we are going to explore what exactly "similar" embeddings mean.
@@ -146,20 +135,17 @@ plt.gcf().clear()
 
 # COMMAND ----------
 
-
 word_vectors.similarity("queen", "king")
 
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC Now fill in the following `cos_similarity` function to calculate the cosine similarity between 2 vectors (np arrays) of equal dimensions.
 # MAGIC 
 # MAGIC Hint: Take a look at some numpy functions.
 
 # COMMAND ----------
-
 
 TODO
 import numpy as np
@@ -177,14 +163,12 @@ assert round(ans, 3) == round(word_vectors.similarity(word1, word2), 3), "Your a
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC Let's use the similarity measure that we implemented to be able to pick a word, out of an inputted list, that is "closest" to a given word.
 # MAGIC 
 # MAGIC Fill out the below function `most_similar` to return the word from `words` that has the closest cosine similarity to word `w`.
 
 # COMMAND ----------
-
 
 TODO
 
@@ -197,7 +181,6 @@ most_similar("queen", ["king", "woman", "man", "princess"])
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC You can play around with the inputs to `most_similar` and see which words the GloVe embedding model treats has having similar semantic meanings.
 

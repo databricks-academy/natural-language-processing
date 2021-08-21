@@ -7,7 +7,6 @@
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC # N-grams Lab
 # MAGIC 
@@ -17,12 +16,10 @@
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %run ../Includes/Classroom-Setup
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC 
 # MAGIC Another commonly used preprocessing step is the generation of n-grams, an ordered sequence of `n` tokens. This can be important when there are meaningful phrases that are made up of multiple words in a specific order. For example knowing that "really good" occurred is more important than just knowing that the tokens "really" and "good" appeared in the text. Sometimes using `n > 2` may be helpful such as extracting the phrase "really highly recommend."
@@ -37,18 +34,15 @@
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md Load in our tokenized and processed DataFrame.
 
 # COMMAND ----------
-
 
 processed_df = spark.read.parquet("/mnt/training/reviews/tfidf.parquet")
 
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC 
 # MAGIC One implementation of n-grams is SparkML's built-in `NGram` <a href="https://spark.apache.org/docs/latest/ml-features.html#n-gram" target="_blank">function</a>,  which takes an integer `n` and a list of tokens, and creates all possible groups of **exactly** `n` consecutive tokens.
@@ -61,7 +55,6 @@ processed_df = spark.read.parquet("/mnt/training/reviews/tfidf.parquet")
 # MAGIC **Hint:** You may want to take a look at <a href = "https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.functions.concat.html?highlight=concat#pyspark.sql.functions.concat" target="_blank"?> pyspark.sql.functions.concat</a>.
 
 # COMMAND ----------
-
 
 # ANSWER
 # Apply n-grams to processed DataFrame
@@ -85,13 +78,11 @@ display(ngram_df.select("ngrams"))
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC 
 # MAGIC Similar to how we looked at the top tokens in our dataset, now we can use the `ngramDF` you created above to take a look at the most common n-grams (`n = 2` and `3`) in our dataset.
 
 # COMMAND ----------
-
 
 # Resulting top 25 ngrams
 from pyspark.sql.functions import size, split, explode
@@ -109,7 +100,6 @@ display(ngram_dist)
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md What do you notice about the frequent n-grams? Could they be important in text processing?
 
 # COMMAND ----------

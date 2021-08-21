@@ -1,6 +1,4 @@
 # Databricks notebook source
-spark.conf.set("com.databricks.training.module-name", "nlp")
-
 # filter out warnings from python
 # issue: https://github.com/RaRe-Technologies/smart_open/issues/319
 import warnings
@@ -11,16 +9,13 @@ displayHTML("Preparing the learning environment...")
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %run "./Class-Utility-Methods"
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %run "./Dataset-Mounts"
 
 # COMMAND ----------
-
 
 def init_mlflow_as_job():
   import mlflow
@@ -36,7 +31,6 @@ init_mlflow_as_job()
 
 # COMMAND ----------
 
-
 courseType = "il"
 username = getUsername()
 userhome = getUserhome()
@@ -44,7 +38,6 @@ workingDir = getWorkingDir(courseType).replace("_pil", "")
 
 
 # COMMAND ----------
-
 
 courseAdvertisements = dict()
 courseAdvertisements["username"] = (

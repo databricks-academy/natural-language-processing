@@ -7,7 +7,6 @@
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC # NLP Course Overview
 # MAGIC ## Foundations of Scalable Natural Language Processing
@@ -34,12 +33,10 @@
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %pip install wordcloud==1.7
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) Classroom-Setup
 # MAGIC 
@@ -47,12 +44,10 @@
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %run ./Includes/Classroom-Setup
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC # What is NLP?
 # MAGIC 
@@ -64,7 +59,6 @@
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC ## Definition
 # MAGIC 
@@ -79,7 +73,6 @@
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC ## Why NLP?
 # MAGIC 
@@ -93,7 +86,6 @@
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC ## Amazon Reviews Dataset Use Case
 # MAGIC 
@@ -106,7 +98,6 @@
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC ### Loading the DataFrame
 # MAGIC 
@@ -114,14 +105,12 @@
 
 # COMMAND ----------
 
-
 text_df = spark.read.csv("/mnt/training/reviews/reviews.csv", header=True, escape='"')
 display(text_df.limit(1000))
 
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC ### Selecting Columns
 # MAGIC 
@@ -131,7 +120,6 @@ display(text_df.limit(1000))
 
 # COMMAND ----------
 
-
 text_df = text_df.select("Id", "ProductId", "Score", "Summary", "Text")
 
 text_df.cache().count()
@@ -139,7 +127,6 @@ text_df.cache().count()
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC 
 # MAGIC ### Distribution of Scores in Dataset
@@ -148,7 +135,6 @@ text_df.cache().count()
 
 # COMMAND ----------
 
-
 from pyspark.sql.functions import col
 
 display(text_df.groupBy("Score").count().sort(col("count").desc()))
@@ -156,14 +142,12 @@ display(text_df.groupBy("Score").count().sort(col("count").desc()))
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC ### Data Skew
 # MAGIC Wow! We have quite a bit of data skew here! Most of the entries are 5 and 4 star reviews, and 1 star reviews are more prevalent than 2 or 3 star reviews (is that in alignment with how you rate things?). We will discuss various ways to deal with this later.
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC ### Wordcloud
 # MAGIC 
@@ -172,7 +156,6 @@ display(text_df.groupBy("Score").count().sort(col("count").desc()))
 # MAGIC Below are 3 different wordclouds for 3 different `Text` entries of the DataFrame.
 
 # COMMAND ----------
-
 
 from wordcloud import WordCloud, STOPWORDS
 import matplotlib.pyplot as plt
@@ -194,13 +177,11 @@ def wordcloud_draw(text, title="", color="white"):
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC 
 # MAGIC ### Wordcloud of Text in Row 1: `Good Quality Dog Food`
 
 # COMMAND ----------
-
 
 list_texts = text_df.select("Text", "Summary").limit(3).collect()
 row = 0  # First row
@@ -211,13 +192,11 @@ wordcloud_draw(
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC 
 # MAGIC ### Wordcloud of Text in Row 2: `Not as Advertised`
 
 # COMMAND ----------
-
 
 row = 1
 wordcloud_draw(list_texts[row][0], list_texts[row][1], "gray")
@@ -225,13 +204,11 @@ wordcloud_draw(list_texts[row][0], list_texts[row][1], "gray")
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC 
 # MAGIC ### Wordcloud of Text in Row 3: `"Delight" says it all`
 
 # COMMAND ----------
-
 
 row = 2
 wordcloud_draw(list_texts[row][0], list_texts[row][1], "black")

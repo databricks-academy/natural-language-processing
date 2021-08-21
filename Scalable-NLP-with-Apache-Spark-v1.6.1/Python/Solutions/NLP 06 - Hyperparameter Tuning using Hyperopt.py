@@ -7,7 +7,6 @@
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC # Hyperparameter Tuning using Hyperopt
 # MAGIC 
@@ -18,11 +17,9 @@
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %run ./Includes/Classroom-Setup
 
 # COMMAND ----------
-
 
 from pyspark.sql.functions import col, when
 import numpy as np
@@ -39,7 +36,6 @@ from hyperopt import fmin, hp, tpe, STATUS_OK, SparkTrials
 
 # COMMAND ----------
 
-
 text_df = (spark.read.parquet("/mnt/training/reviews/reviews_cleaned.parquet")
            .select("Text", "Score")
            .limit(5000) ### limit to only 5000 rows to reduce training time
@@ -50,13 +46,11 @@ display(text_df)
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC ### Preprocessing
 # MAGIC - Includes tokenization and padding
 
 # COMMAND ----------
-
 
 (train_df, test_df) = text_df.randomSplit([0.8, 0.2])
 train_pdf = train_df.toPandas()
@@ -65,7 +59,6 @@ y_train = train_pdf["sentiment"].values
 
 
 # COMMAND ----------
-
 
 vocab_size = 10000
 max_length = 500
@@ -86,12 +79,10 @@ X_test_seq_padded = pad_sequences(X_test_seq, maxlen=max_length)
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC ### Define LSTM Architecture
 
 # COMMAND ----------
-
 
 def create_lstm(hpo):
   ### Below is a slightly simplified architecture compared to the previous notebook to save time 
@@ -109,14 +100,12 @@ def create_lstm(hpo):
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC ### Define Hyperopt's objective function
 # MAGIC 
 # MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> We need to import `tensorflow` within the function due to a pickling issue.  <a href="https://docs.databricks.com/applications/deep-learning/single-node-training/tensorflow.html#tensorflow-2-known-issues" target="_blank">See known issues here.</a>
 
 # COMMAND ----------
-
 
 def run_lstm(hpo):
   ### Need to include the TF import due to serialization issues
@@ -143,14 +132,12 @@ def run_lstm(hpo):
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC ### Define search space for tuning
 # MAGIC 
 # MAGIC We need to create a search space for HyperOpt and set up SparkTrials to allow HyperOpt to run in parallel using Spark worker nodes. We can also start a MLflow run to automatically track the results of HyperOpt's tuning trials.
 
 # COMMAND ----------
-
 
 space = {
   "num_epoch": hp.quniform("num_epoch", 1, 3, 1), 
@@ -173,7 +160,6 @@ best_hyperparam
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md
 # MAGIC ## Lab
 # MAGIC 
@@ -182,7 +168,6 @@ best_hyperparam
 # MAGIC - "embedding_dim": hp.quniform("embedding_dim", 40, 512, 1),
 
 # COMMAND ----------
-
 
 # ANSWER
 

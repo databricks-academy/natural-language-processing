@@ -1,6 +1,4 @@
 # Databricks notebook source
-# Class Utility Methods
-
 #############################################
 # TAG API FUNCTIONS
 #############################################
