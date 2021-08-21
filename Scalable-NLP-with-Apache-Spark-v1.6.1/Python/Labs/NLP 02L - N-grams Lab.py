@@ -34,7 +34,8 @@
 
 # COMMAND ----------
 
-# MAGIC %md Load in our tokenized and processed DataFrame.
+# MAGIC %md
+# MAGIC Load in our tokenized and processed DataFrame.
 
 # COMMAND ----------
 
@@ -100,7 +101,8 @@ display(ngram_dist)
 
 # COMMAND ----------
 
-# MAGIC %md What do you notice about the frequent n-grams? Could they be important in text processing?
+# MAGIC %md
+# MAGIC What do you notice about the frequent n-grams? Could they be important in text processing?
 
 # COMMAND ----------
 

@@ -24,7 +24,8 @@
 
 # COMMAND ----------
 
-# MAGIC %md We need the gensim library to load in the pretrained GloVe vectors again.
+# MAGIC %md
+# MAGIC We need the gensim library to load in the pretrained GloVe vectors again.
 
 # COMMAND ----------
 
@@ -35,7 +36,8 @@ word_vectors = api.load("glove-wiki-gigaword-100")
 
 # COMMAND ----------
 
-# MAGIC %md We are going to recreate the DataFrame and graph showcasing the embeddings of the words "man", "woman", "king", and "queen."
+# MAGIC %md
+# MAGIC We are going to recreate the DataFrame and graph showcasing the embeddings of the words "man", "woman", "king", and "queen."
 
 # COMMAND ----------
 
