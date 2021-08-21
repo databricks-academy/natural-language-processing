@@ -1,4 +1,5 @@
 # Databricks notebook source
+# Does any work to reset the environment prior to testing.
 import time
 try:
   dbutils.fs.unmount("/mnt/training")

@@ -1,4 +1,6 @@
 # Databricks notebook source
+spark.conf.set("com.databricks.training.module-name", "nlp")
+
 # filter out warnings from python
 # issue: https://github.com/RaRe-Technologies/smart_open/issues/319
 import warnings

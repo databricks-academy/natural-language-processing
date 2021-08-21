@@ -1,4 +1,5 @@
 # Databricks notebook source
+# MAGIC %scala
 // ALL_NOTEBOOKS
 def cloudAndRegion(cloudAndRegionOverride:Tuple2[String,String]) = {
   import com.databricks.backend.common.util.Project
