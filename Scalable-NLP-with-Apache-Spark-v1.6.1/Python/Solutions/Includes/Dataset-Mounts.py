@@ -196,7 +196,6 @@ def fixMounts(): Unit = {
 
 autoMount(true)
 
-
 # COMMAND ----------
 
 def getAzureDataSource():

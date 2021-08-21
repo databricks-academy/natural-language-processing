@@ -30,7 +30,6 @@ import pandas as pd
 import mlflow
 import mlflow.tensorflow
 
-
 # COMMAND ----------
 
 text_df = (spark.read.parquet("/mnt/training/reviews/reviews_cleaned.parquet")
@@ -38,29 +37,24 @@ text_df = (spark.read.parquet("/mnt/training/reviews/reviews_cleaned.parquet")
            .limit(5000) ### limit to only 5000 rows to reduce training time
           )
 
-
 # COMMAND ----------
 
 ### Ensure that there are no missing values
 text_df.filter(col("Score").isNull()).count()
-
 
 # COMMAND ----------
 
 text_df = text_df.withColumn("sentiment", when(col("Score") > 3, 1).otherwise(0))
 display(text_df)
 
-
 # COMMAND ----------
 
 positive_review_percent = text_df.filter(col("sentiment") == 1).count() / text_df.count() * 100
 print(f"{positive_review_percent}% of reviews are positive")
 
-
 # COMMAND ----------
 
 (train_df, test_df) = text_df.randomSplit([0.8, 0.2])
-
 
 # COMMAND ----------
 
@@ -69,13 +63,11 @@ test_positive_review_percent = test_df.filter(col("sentiment") == 1).count() / t
 print(f"{train_positive_review_percent}% of reviews in the train_df are positive")
 print(f"{test_positive_review_percent}% of reviews in the test_df are positive")
 
-
 # COMMAND ----------
 
 train_pdf = train_df.toPandas()
 X_train = train_pdf["Text"].values
 y_train = train_pdf["sentiment"].values
-
 
 # COMMAND ----------
 
@@ -89,7 +81,6 @@ tokenizer = Tokenizer(num_words=vocab_size)
 tokenizer.fit_on_texts(X_train)
 ### convert the texts to sequences
 X_train_seq = tokenizer.texts_to_sequences(X_train)
-
 
 # COMMAND ----------
 
@@ -105,14 +96,12 @@ print(f"median number of words: {np.median(l)}")
 print(f"average number of words: {l.mean()}")
 print(f"maximum number of words: {l.max()}")
 
-
 # COMMAND ----------
 
 print(X_train[0])
 print("\n")
 ### The text gets converted to a list of integers
 print(X_train_seq[0])
-
 
 # COMMAND ----------
 
@@ -123,7 +112,6 @@ print(X_train_seq[0])
 
 max_length = 800
 X_train_seq_padded = pad_sequences(X_train_seq, maxlen=max_length)
-
 
 # COMMAND ----------
 
@@ -137,7 +125,6 @@ X_test = test_pdf["Text"].values
 y_test = test_pdf["sentiment"].values
 X_test_seq = tokenizer.texts_to_sequences(X_test)
 X_test_seq_padded = pad_sequences(X_test_seq, maxlen=max_length)
-
 
 # COMMAND ----------
 
@@ -173,7 +160,6 @@ outputs = layers.Dense(1, activation="sigmoid")(x)
 model = keras.Model(inputs, outputs)
 model.summary()
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -195,7 +181,6 @@ with mlflow.start_run() as run:
             epochs=1, 
             validation_split=0.1)
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -205,7 +190,6 @@ with mlflow.start_run() as run:
 
 test_loss, test_auc = model.evaluate(X_test_seq_padded, y_test, verbose=False)
 print(f"Test loss is {test_loss}. Test AUC is {test_auc}")
-
 
 # COMMAND ----------
 
@@ -221,7 +205,6 @@ logged_model = f"runs:/{run.info.run_id}/model"
 ### Load model as a Spark UDF
 loaded_model = mlflow.pyfunc.spark_udf(spark, model_uri=logged_model)
 
-
 # COMMAND ----------
 
 df = spark.createDataFrame(pd.concat([pd.DataFrame(data=y_test, columns=["label"]), 
@@ -232,11 +215,9 @@ pred_df = (df
            .select("text", "label", "predictions")
            .withColumn("predicted_label", when(col("predictions") > 0.5, 1).otherwise(0)))
 
-
 # COMMAND ----------
 
 display(pred_df)
-
 
 # COMMAND ----------
 

@@ -33,7 +33,6 @@ import gensim.downloader as api
 # Load GloVe
 word_vectors = api.load("glove-wiki-gigaword-100")
 
-
 # COMMAND ----------
 
 # MAGIC %md We are going to recreate the DataFrame and graph showcasing the embeddings of the words "man", "woman", "king", and "queen."
@@ -75,7 +74,6 @@ def plot_vectors(vectors, words, title="Visualizing Word Embeddings", xlim1=-2, 
 plot_vectors(vectors, words)
 plt.show()
 plt.gcf().clear()
-
 
 # COMMAND ----------
 
@@ -125,7 +123,6 @@ plt.text(w_plus_k_minus_m[0] + 0.1, w_plus_k_minus_m[1] + 0.05, "(woman+king)-ma
 plt.show()
 plt.gcf().clear()
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -147,7 +144,6 @@ plt.gcf().clear()
 # COMMAND ----------
 
 word_vectors.similarity("queen", "king")
-
 
 # COMMAND ----------
 
@@ -173,7 +169,6 @@ assert round(ans, 3) == round(
     word_vectors.similarity(word1, word2), 3
 ), "Your answer does not match Gensim's"
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -194,7 +189,6 @@ def most_similar(w, words):
   return words[np.argmax(similarities)]
 
 most_similar("queen", ["king", "woman", "man", "princess"])
-
 
 # COMMAND ----------
 

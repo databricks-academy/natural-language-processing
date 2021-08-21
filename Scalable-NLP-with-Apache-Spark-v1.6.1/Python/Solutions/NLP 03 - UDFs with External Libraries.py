@@ -77,7 +77,6 @@ word_forms = [(word, stemmer.stem(word), lemmatizer.lemmatize(word)) for word in
 for orig, stemmed, lemmatized in word_forms:
     print(f"Original: {orig}  \tStemmed: {stemmed} \tLemmatized:{lemmatized}")
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -110,7 +109,6 @@ def stem_udf(tokens):
 # add StemTokens column
 stemmedDF = processedDF.withColumn("StemTokens", stem_udf(col("CleanTokens")))
 display(stemmedDF.select("StemTokens", "CleanTokens").limit(2))
-
 
 # COMMAND ----------
 
@@ -156,7 +154,6 @@ def stem_udf(tokens_batch: pd.Series) -> pd.Series:
 stemmedDF = processedDF.withColumn("StemTokens", stem_udf(col("CleanTokens")))
 display(stemmedDF.select("StemTokens", "CleanTokens").limit(2))
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -185,7 +182,6 @@ def stem_scalar_udf(iterator: Iterator[pd.Series]) -> Iterator[pd.Series]:
 stemmedDF = processedDF.withColumn("StemTokens", stem_scalar_udf(col("CleanTokens")))
 display(stemmedDF.select("StemTokens", "CleanTokens").limit(2))
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -209,7 +205,6 @@ def lemma_udf(tokens):
 lemmaDF = processedDF.withColumn("LemmaTokens", lemma_udf(col("CleanTokens")))
 display(lemmaDF.select("Tokens", "LemmaTokens").limit(2))
 
-
 # COMMAND ----------
 
 # ANSWER
@@ -224,7 +219,6 @@ def lemma_udf(tokens_batch: pd.Series) -> pd.Series:
 # add LemmaTokens column
 lemmaDF = processedDF.withColumn("LemmaTokens", lemma_udf(col("CleanTokens")))
 display(lemmaDF.select("LemmaTokens", "Tokens").limit(2))
-
 
 # COMMAND ----------
 

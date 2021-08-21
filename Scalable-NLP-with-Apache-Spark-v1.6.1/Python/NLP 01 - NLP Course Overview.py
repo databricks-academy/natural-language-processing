@@ -108,7 +108,6 @@
 text_df = spark.read.csv("/mnt/training/reviews/reviews.csv", header=True, escape='"')
 display(text_df.limit(1000))
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -124,7 +123,6 @@ text_df = text_df.select("Id", "ProductId", "Score", "Summary", "Text")
 
 text_df.cache().count()
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -138,7 +136,6 @@ text_df.cache().count()
 from pyspark.sql.functions import col
 
 display(text_df.groupBy("Score").count().sort(col("count").desc()))
-
 
 # COMMAND ----------
 
@@ -174,7 +171,6 @@ def wordcloud_draw(text, title="", color="white"):
     plt.axis("off")
     plt.show()
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -189,7 +185,6 @@ wordcloud_draw(
     list_texts[row][0], list_texts[row][1], "white"
 )  # Background color is white
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -200,7 +195,6 @@ wordcloud_draw(
 
 row = 1
 wordcloud_draw(list_texts[row][0], list_texts[row][1], "gray")
-
 
 # COMMAND ----------
 

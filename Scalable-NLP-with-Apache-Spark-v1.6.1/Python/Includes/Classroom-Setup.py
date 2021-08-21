@@ -6,7 +6,6 @@ warnings.filterwarnings("ignore")
 
 displayHTML("Preparing the learning environment...")
 
-
 # COMMAND ----------
 
 # MAGIC %run "./Class-Utility-Methods"
@@ -28,14 +27,12 @@ def init_mlflow_as_job():
     
 init_mlflow_as_job()
 
-
 # COMMAND ----------
 
 courseType = "il"
 username = getUsername()
 userhome = getUserhome()
 workingDir = getWorkingDir(courseType).replace("_pil", "")
-
 
 # COMMAND ----------
 

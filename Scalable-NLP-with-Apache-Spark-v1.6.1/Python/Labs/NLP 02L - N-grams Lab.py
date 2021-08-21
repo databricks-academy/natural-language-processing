@@ -40,7 +40,6 @@
 
 processed_df = spark.read.parquet("/mnt/training/reviews/tfidf.parquet")
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -78,7 +77,6 @@ ngram_df = ngram_df.withColumn(
 
 display(ngram_df.select("ngrams"))
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -99,7 +97,6 @@ ngram_dist = (ngram_df
 )
 
 display(ngram_dist)
-
 
 # COMMAND ----------
 

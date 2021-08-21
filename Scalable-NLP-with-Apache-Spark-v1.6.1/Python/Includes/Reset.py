@@ -13,7 +13,6 @@ except:
   # This is good, mount has been removed
   print("/mnt/training confirmed to not exist")
 
-
 # COMMAND ----------
 
 # MAGIC %run ./Classroom-Setup

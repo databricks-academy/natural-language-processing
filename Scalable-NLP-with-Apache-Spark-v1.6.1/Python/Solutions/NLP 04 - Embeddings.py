@@ -78,7 +78,6 @@
 processed_df = spark.read.parquet("/mnt/training/reviews/tfidf.parquet")
 display(processed_df.limit(2))
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -103,7 +102,6 @@ model = word_2_vec.fit(processed_df.limit(10000))
 wv_df = model.transform(processed_df.limit(10000))
 display(wv_df.select("Text", "word2vecEmbedding").limit(2))
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -122,7 +120,6 @@ import gensim.downloader as api
 # Load GloVe
 word_vectors = api.load("glove-wiki-gigaword-100")
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -133,7 +130,6 @@ word_vectors = api.load("glove-wiki-gigaword-100")
 california_vec = word_vectors.get_vector("california")
 print("Embedding dimension:", california_vec.shape)
 print("Vector embedding for the token 'california':\n", california_vec)
-
 
 # COMMAND ----------
 
@@ -155,7 +151,6 @@ print("Vector embedding for the token 'california':\n", california_vec)
 print("Words with vectors most similar to 'california':")
 word_vectors.most_similar("california")
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -167,7 +162,6 @@ word_vectors.most_similar("california")
 
 result = word_vectors.most_similar(positive=["woman", "king"], negative=["man"])
 result
-
 
 # COMMAND ----------
 
@@ -227,7 +221,6 @@ def plot_vectors(vectors, words):
 plot_vectors(vectors, words)
 plt.show()
 
-
 # COMMAND ----------
 
 # MAGIC %md Let's try some more examples.
@@ -250,7 +243,6 @@ for start, neg, pos in examples:
     print(
         f"{start} - {neg} + {pos} = {word_vectors.most_similar(positive=[start, pos], negative=[neg])[0][0]}"
     )
-
 
 # COMMAND ----------
 
@@ -290,7 +282,6 @@ keywords = ["food", "eat", "flavor", "yummy", "delicious", "taste", "tasty", "sw
 target_vector = np.sum(np.array([word_vectors.get_vector(w) for w in keywords]), axis=0).tolist()
 target_vector
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -299,7 +290,6 @@ target_vector
 # COMMAND ----------
 
 display(processed_df.limit(2))
-
 
 # COMMAND ----------
 
@@ -329,7 +319,6 @@ vectorized_df = processed_df.select("Id",
                                     tokens_2_vector(col("CleanTokens")).alias("Vector"))
 
 display(vectorized_df.limit(2))
-
 
 # COMMAND ----------
 
@@ -361,7 +350,6 @@ display(sim_df
         .select("Id", "Summary", "ProductId", "Text", "SimilarityToTarget")
         .orderBy(col("SimilarityToTarget").desc())
 )
-
 
 # COMMAND ----------
 

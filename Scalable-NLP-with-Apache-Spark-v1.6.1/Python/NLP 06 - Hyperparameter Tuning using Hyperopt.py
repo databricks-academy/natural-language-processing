@@ -33,7 +33,6 @@ import mlflow.tensorflow
 import mlflow
 from hyperopt import fmin, hp, tpe, STATUS_OK, SparkTrials
 
-
 # COMMAND ----------
 
 text_df = (spark.read.parquet("/mnt/training/reviews/reviews_cleaned.parquet")
@@ -42,7 +41,6 @@ text_df = (spark.read.parquet("/mnt/training/reviews/reviews_cleaned.parquet")
           )
 text_df = text_df.withColumn("sentiment", when(col("Score") > 3, 1).otherwise(0))
 display(text_df)
-
 
 # COMMAND ----------
 
@@ -56,7 +54,6 @@ display(text_df)
 train_pdf = train_df.toPandas()
 X_train = train_pdf["Text"].values
 y_train = train_pdf["sentiment"].values
-
 
 # COMMAND ----------
 
@@ -75,7 +72,6 @@ X_test = test_pdf["Text"].values
 y_test = test_pdf["sentiment"].values
 X_test_seq = tokenizer.texts_to_sequences(X_test)
 X_test_seq_padded = pad_sequences(X_test_seq, maxlen=max_length)
-
 
 # COMMAND ----------
 
@@ -96,7 +92,6 @@ def create_lstm(hpo):
   model = keras.Model(inputs, outputs)
 
   return model
-
 
 # COMMAND ----------
 
@@ -129,7 +124,6 @@ def run_lstm(hpo):
   obj_metric = history.history["loss"][-1]
   return {"loss": -obj_metric, "status": STATUS_OK}
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -156,7 +150,6 @@ with mlflow.start_run() as run:
                          rstate=np.random.RandomState(42))
 
 best_hyperparam
-
 
 # COMMAND ----------
 
@@ -189,7 +182,6 @@ space = {
   "learning_rate": hp.loguniform("learning_rate", np.log(1e-4), 0), ## max is 1 because exp(0) is 1, added np.log to prevent exp() resulting in negative values
   "optimizer": hp.choice("optimizer", ["Adadelta", "Adam"])
  }
-
 
 # COMMAND ----------
 

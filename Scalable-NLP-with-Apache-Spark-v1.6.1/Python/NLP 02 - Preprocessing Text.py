@@ -58,7 +58,6 @@ sentence = "We are tokenizing this sentence using Python string's .split() metho
 print(f"Sentence: {sentence}")
 print(f"Tokenized Sentence: {sentence.split()}")
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -98,7 +97,6 @@ print(f"Tokenized Sentence: {sentence.split()}")
 text_df = spark.read.parquet("/mnt/training/reviews/reviews_cleaned.parquet")
 display(text_df)
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -117,7 +115,6 @@ tokenizer = RegexTokenizer(inputCol="Text", outputCol="Tokens", pattern="\\W")
 tokenized_df = tokenizer.transform(text_df)
 display(tokenized_df.limit(20))
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -132,7 +129,6 @@ display(tokenized_df.limit(20))
 # using SparkML
 spark_df = tokenizer.transform(text_df)
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -141,7 +137,6 @@ spark_df = tokenizer.transform(text_df)
 # COMMAND ----------
 
 text_pdf = text_df.toPandas()
-
 
 # COMMAND ----------
 
@@ -152,7 +147,6 @@ text_pdf = text_df.toPandas()
 
 # using Python's .split
 text_pdf["Tokens"] = text_pdf["Text"].apply(lambda text: text.split())
-
 
 # COMMAND ----------
 
@@ -180,7 +174,6 @@ word_dist = (
 )
 
 display(word_dist.limit(30))
-
 
 # COMMAND ----------
 
@@ -210,7 +203,6 @@ from pyspark.ml.feature import StopWordsRemover
 stop_words = StopWordsRemover().getStopWords() + ["br", "href", "www", "http", "com"]
 print(f"Our stopwords:\n {stop_words}")
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -231,7 +223,6 @@ word_dist_new = (
 )
 
 display(word_dist_new.limit(10))
-
 
 # COMMAND ----------
 
@@ -310,7 +301,6 @@ tfidf_model = tfidf_pipeline.fit(processed_df)
 tfidf_df = tfidf_model.transform(processed_df).drop("TFIDFScore")
 
 display(tfidf_df.drop("Tokens").limit(10))
-
 
 # COMMAND ----------
 
