@@ -90,7 +90,7 @@ plt.gcf().clear()
 
 # COMMAND ----------
 
-TODO
+# TODO
 
 # Plots 4 vectors from graph above
 plot_vectors(vectors, words, "Visualizing 'woman+king-man'")
@@ -143,7 +143,7 @@ word_vectors.similarity("queen", "king")
 
 # COMMAND ----------
 
-TODO
+# TODO
 import numpy as np
 
 def cos_similarity(v1, v2):
@@ -165,7 +165,7 @@ assert round(ans, 3) == round(word_vectors.similarity(word1, word2), 3), "Your a
 
 # COMMAND ----------
 
-TODO
+# TODO
 
 def most_similar(w, words):
   # FILL_IN

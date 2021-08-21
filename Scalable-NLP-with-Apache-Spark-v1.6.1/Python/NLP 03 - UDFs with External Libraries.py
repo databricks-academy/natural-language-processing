@@ -191,7 +191,7 @@ display(stemmedDF.select("StemTokens", "CleanTokens").limit(2))
 
 # COMMAND ----------
 
-TODO 
+# TODO 
 ### Method 1 without using pandas_udf
 
 @udf(ArrayType(StringType()))
@@ -206,7 +206,7 @@ display(lemmaDF.select("Tokens", "LemmaTokens").limit(2))
 
 # COMMAND ----------
 
-TODO
+# TODO
 ### Method 2 using pandas_udf
 
 @pandas_udf(ArrayType(StringType()))
@@ -221,7 +221,7 @@ display(lemmaDF.select("LemmaTokens", "Tokens").limit(2))
 
 # COMMAND ----------
 
-TODO
+# TODO
 ### Method 3 using scalar iterator udf
 
 @pandas_udf(ArrayType(StringType()))
@@ -229,7 +229,7 @@ def lemma_scalar_udf(iterator: Iterator[pd.Series]) -> Iterator[pd.Series]:
   nltk.download("wordnet")
   lemmatizer = WordNetLemmatizer()
   yield # FILL_IN
-   
+    
 ## add LemmaTokens column
 lemmaDF = processedDF.withColumn("LemmaTokens", lemma_scalar_udf(col("CleanTokens")))
 display(lemmaDF.select("LemmaTokens", "Tokens").limit(2))    

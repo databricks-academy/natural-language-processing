@@ -55,7 +55,7 @@ processed_df = spark.read.parquet("/mnt/training/reviews/tfidf.parquet")
 
 # COMMAND ----------
 
-TODO
+# TODO
 # Apply n-grams to processed DataFrame
 from pyspark.ml.feature import NGram
 from pyspark.sql.functions import concat, col
