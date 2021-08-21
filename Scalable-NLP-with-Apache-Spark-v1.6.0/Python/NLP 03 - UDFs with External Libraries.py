@@ -1,4 +1,5 @@
 # Databricks notebook source
+# MAGIC 
 # MAGIC %md-sandbox
 # MAGIC 
 # MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">
@@ -187,7 +188,7 @@ display(stemmedDF.select("StemTokens", "CleanTokens").limit(2))
 # MAGIC %md
 # MAGIC ### Lab: Lemmatizing UDF
 # MAGIC 
-# MAGIC Now that you have seen the examples of stemming words using a UDF, a pandas UDF and also a scalar iterator UDF. It's your turn to write a UDF of any type that lemmatizes words!
+# MAGIC Now that you have seen the examples of stemming words using a UDF, a pandas UDF and also a scalar iterator UDF. It's your turn to write a UDF of any type that lemmatizes words! 
 
 # COMMAND ----------
 
@@ -232,7 +233,8 @@ def lemma_scalar_udf(iterator: Iterator[pd.Series]) -> Iterator[pd.Series]:
     
 ## add LemmaTokens column
 lemmaDF = processedDF.withColumn("LemmaTokens", lemma_scalar_udf(col("CleanTokens")))
-display(lemmaDF.select("LemmaTokens", "Tokens").limit(2))
+display(lemmaDF.select("LemmaTokens", "Tokens").limit(2))    
+
 
 # COMMAND ----------
 

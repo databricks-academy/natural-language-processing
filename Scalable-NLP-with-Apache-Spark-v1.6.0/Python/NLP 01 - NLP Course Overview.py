@@ -1,4 +1,5 @@
 # Databricks notebook source
+# MAGIC 
 # MAGIC %md-sandbox
 # MAGIC 
 # MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">
@@ -206,6 +207,7 @@ wordcloud_draw(list_texts[row][0], list_texts[row][1], "gray")
 
 row = 2
 wordcloud_draw(list_texts[row][0], list_texts[row][1], "black")
+
 
 # COMMAND ----------
 
