@@ -9,19 +9,14 @@ displayHTML("Preparing the learning environment...")
 
 # COMMAND ----------
 
-|moo1
-%run "./Class-Utility-Methods"
-
+# MAGIC %run "./Class-Utility-Methods"
 
 # COMMAND ----------
 
-|moo1
-%run "./Dataset-Mounts"
-
+# MAGIC %run "./Dataset-Mounts"
 
 # COMMAND ----------
 
-|moo1
 def init_mlflow_as_job():
   import mlflow
   job_experiment_id = sc._jvm.scala.collection.JavaConversions.mapAsJavaMap(
@@ -36,7 +31,6 @@ init_mlflow_as_job()
 
 # COMMAND ----------
 
-|moo1
 courseType = "il"
 username = getUsername()
 userhome = getUserhome()
@@ -45,7 +39,6 @@ workingDir = getWorkingDir(courseType).replace("_pil", "")
 
 # COMMAND ----------
 
-|moo1
 courseAdvertisements = dict()
 courseAdvertisements["username"] = (
     "v",
@@ -62,4 +55,4 @@ courseAdvertisements["workingDir"] = (
     workingDir,
     "No additional information was provided.",
 )
-allDone(courseAdvertisements)|moo2
+allDone(courseAdvertisements)

@@ -199,7 +199,6 @@ autoMount(true)
 
 # COMMAND ----------
 
-|moo1
 def getAzureDataSource():
   datasource = spark.conf.get("com.databricks.training.azure.datasource").split("\t")
   source = datasource[0]
@@ -208,4 +207,4 @@ def getAzureDataSource():
   return (source, sasEntity, sasToken)
 
 
-None # Suppress output|moo2
+None # Suppress output

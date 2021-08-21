@@ -397,4 +397,4 @@ class FILL_IN:
     DATAFRAME = sqlContext.createDataFrame(sc.emptyRDD(), StructType([]))
 
 
-displayHTML("Defining courseware-specific utility methods...")|moo2
+displayHTML("Defining courseware-specific utility methods...")
