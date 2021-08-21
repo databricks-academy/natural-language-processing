@@ -7,20 +7,25 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Hyperparameter Tuning using Hyperopt
-# MAGIC 
-# MAGIC The [Hyperopt library](https://github.com/hyperopt/hyperopt) allows for parallel hyperparameter tuning using either random search or Tree of Parzen Estimators (TPE). With MLflow, we can record the hyperparameters and corresponding metrics for each hyperparameter combination. You can read more on [SparkTrials w/ Hyperopt](https://github.com/hyperopt/hyperopt/blob/master/docs/templates/scaleout/spark.md).
-# MAGIC 
-# MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) In this lesson you:<br>
-# MAGIC - Tune the LSTM model we trained in the previous model using Hyperopt
+|moo1
+%md
+# Hyperparameter Tuning using Hyperopt
+
+The [Hyperopt library](https://github.com/hyperopt/hyperopt) allows for parallel hyperparameter tuning using either random search or Tree of Parzen Estimators (TPE). With MLflow, we can record the hyperparameters and corresponding metrics for each hyperparameter combination. You can read more on [SparkTrials w/ Hyperopt](https://github.com/hyperopt/hyperopt/blob/master/docs/templates/scaleout/spark.md).
+
+## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) In this lesson you:<br>
+- Tune the LSTM model we trained in the previous model using Hyperopt
+
 
 # COMMAND ----------
 
-# MAGIC %run ./Includes/Classroom-Setup
+|moo1
+%run ./Includes/Classroom-Setup
+
 
 # COMMAND ----------
 
+|moo1
 from pyspark.sql.functions import col, when
 import numpy as np
 from tensorflow import keras
@@ -36,6 +41,7 @@ from hyperopt import fmin, hp, tpe, STATUS_OK, SparkTrials
 
 # COMMAND ----------
 
+|moo1
 text_df = (spark.read.parquet("/mnt/training/reviews/reviews_cleaned.parquet")
            .select("Text", "Score")
            .limit(5000) ### limit to only 5000 rows to reduce training time
@@ -46,12 +52,15 @@ display(text_df)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Preprocessing
-# MAGIC - Includes tokenization and padding
+|moo1
+%md
+### Preprocessing
+- Includes tokenization and padding
+
 
 # COMMAND ----------
 
+|moo1
 (train_df, test_df) = text_df.randomSplit([0.8, 0.2])
 train_pdf = train_df.toPandas()
 X_train = train_pdf["Text"].values
@@ -60,6 +69,7 @@ y_train = train_pdf["sentiment"].values
 
 # COMMAND ----------
 
+|moo1
 vocab_size = 10000
 max_length = 500
 tokenizer = Tokenizer(num_words=vocab_size)
@@ -79,11 +89,14 @@ X_test_seq_padded = pad_sequences(X_test_seq, maxlen=max_length)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Define LSTM Architecture
+|moo1
+%md
+### Define LSTM Architecture
+
 
 # COMMAND ----------
 
+|moo1
 def create_lstm(hpo):
   ### Below is a slightly simplified architecture compared to the previous notebook to save time 
   embedding_dim = 64
@@ -100,13 +113,16 @@ def create_lstm(hpo):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Define Hyperopt's objective function
-# MAGIC 
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> We need to import `tensorflow` within the function due to a pickling issue.  <a href="https://docs.databricks.com/applications/deep-learning/single-node-training/tensorflow.html#tensorflow-2-known-issues" target="_blank">See known issues here.</a>
+|moo1
+%md
+### Define Hyperopt's objective function
+
+<img src="https://files.training.databricks.com/images/icon_note_24.png"/> We need to import `tensorflow` within the function due to a pickling issue.  <a href="https://docs.databricks.com/applications/deep-learning/single-node-training/tensorflow.html#tensorflow-2-known-issues" target="_blank">See known issues here.</a>
+
 
 # COMMAND ----------
 
+|moo1
 def run_lstm(hpo):
   ### Need to include the TF import due to serialization issues
   import tensorflow as tf
@@ -132,13 +148,16 @@ def run_lstm(hpo):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Define search space for tuning
-# MAGIC 
-# MAGIC We need to create a search space for HyperOpt and set up SparkTrials to allow HyperOpt to run in parallel using Spark worker nodes. We can also start a MLflow run to automatically track the results of HyperOpt's tuning trials.
+|moo1
+%md
+### Define search space for tuning
+
+We need to create a search space for HyperOpt and set up SparkTrials to allow HyperOpt to run in parallel using Spark worker nodes. We can also start a MLflow run to automatically track the results of HyperOpt's tuning trials.
+
 
 # COMMAND ----------
 
+|moo1
 space = {
   "num_epoch": hp.quniform("num_epoch", 1, 3, 1), 
   "learning_rate": hp.loguniform("learning_rate", np.log(1e-4), 0), ## max is 1 because exp(0) is 1, added np.log to prevent exp() resulting in negative values
@@ -160,15 +179,18 @@ best_hyperparam
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Lab
-# MAGIC 
-# MAGIC Try tuning other configurations!
-# MAGIC - "lstm_out": hp.quniform("lstm_out", 20, 150, 1), 
-# MAGIC - "embedding_dim": hp.quniform("embedding_dim", 40, 512, 1),
+|moo1
+%md
+## Lab
+
+Try tuning other configurations!
+- "lstm_out": hp.quniform("lstm_out", 20, 150, 1), 
+- "embedding_dim": hp.quniform("embedding_dim", 40, 512, 1),
+
 
 # COMMAND ----------
 
+|moo1
 # ANSWER
 
 ### First modify the model 
@@ -191,8 +213,9 @@ space = {
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
-# MAGIC &copy; 2021 Databricks, Inc. All rights reserved.<br/>
-# MAGIC Apache, Apache Spark, Spark and the Spark logo are trademarks of the <a href="http://www.apache.org/">Apache Software Foundation</a>.<br/>
-# MAGIC <br/>
-# MAGIC <a href="https://databricks.com/privacy-policy">Privacy Policy</a> | <a href="https://databricks.com/terms-of-use">Terms of Use</a> | <a href="http://help.databricks.com/">Support</a>
+|moo1
+%md-sandbox
+&copy; 2021 Databricks, Inc. All rights reserved.<br/>
+Apache, Apache Spark, Spark and the Spark logo are trademarks of the <a href="http://www.apache.org/">Apache Software Foundation</a>.<br/>
+<br/>
+<a href="https://databricks.com/privacy-policy">Privacy Policy</a> | <a href="https://databricks.com/terms-of-use">Terms of Use</a> | <a href="http://help.databricks.com/">Support</a>|moo2

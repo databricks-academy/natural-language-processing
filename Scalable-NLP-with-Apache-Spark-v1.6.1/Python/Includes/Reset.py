@@ -16,4 +16,5 @@ except:
 
 # COMMAND ----------
 
-# MAGIC %run ./Classroom-Setup
+|moo1
+%run ./Classroom-Setup|moo2

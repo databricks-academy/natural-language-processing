@@ -7,27 +7,36 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC #  Visualizing Vector Arithmetic Lab
-# MAGIC 
-# MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) In this lab you:<br>
-# MAGIC * Apply and visualize basic vector arithmetic to embeddings
-# MAGIC * Calculate cosine similarity between vectors
+|moo1
+%md
+#  Visualizing Vector Arithmetic Lab
+
+## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) In this lab you:<br>
+* Apply and visualize basic vector arithmetic to embeddings
+* Calculate cosine similarity between vectors
+
 
 # COMMAND ----------
 
-# MAGIC %pip install gensim==4.0
+|moo1
+%pip install gensim==4.0
+
 
 # COMMAND ----------
 
-# MAGIC %run ../Includes/Classroom-Setup
+|moo1
+%run ../Includes/Classroom-Setup
+
 
 # COMMAND ----------
 
-# MAGIC %md We need the gensim library to load in the pretrained GloVe vectors again.
+|moo1
+%md We need the gensim library to load in the pretrained GloVe vectors again.
+
 
 # COMMAND ----------
 
+|moo1
 import gensim.downloader as api
 
 # Load GloVe
@@ -36,10 +45,13 @@ word_vectors = api.load("glove-wiki-gigaword-100")
 
 # COMMAND ----------
 
-# MAGIC %md We are going to recreate the DataFrame and graph showcasing the embeddings of the words "man", "woman", "king", and "queen."
+|moo1
+%md We are going to recreate the DataFrame and graph showcasing the embeddings of the words "man", "woman", "king", and "queen."
+
 
 # COMMAND ----------
 
+|moo1
 import matplotlib.pyplot as plt
 from pyspark.ml.feature import PCA
 from pyspark.ml.linalg import Vectors
@@ -79,19 +91,22 @@ plt.gcf().clear()
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now we want to be able to visualize the vector arithmetic involved with the `word_vectors.most_similar(positive=['woman', 'king'], negative=['man'])` call. The call will return the word with the embedding which is closest to the vector resulting from adding the embeddings in `positive` and subtracting the embeddings in `negative`.
-# MAGIC 
-# MAGIC To visualize what the resulting vector should be, we will continue to work with the reduced 2D representations of the pretrained GloVe embeddings and first add the positive embeddings `woman` and `king` before subtracting the embedding of `man`.
-# MAGIC 
-# MAGIC Fill in the following 2 lines to get
-# MAGIC 1. the intermediate `woman + king` embedding
-# MAGIC 2. the final `woman + king - man` embedding
-# MAGIC 
-# MAGIC and run the cell to plot the original 4 vectors with the 2 newly calculated vectors.
+|moo1
+%md
+Now we want to be able to visualize the vector arithmetic involved with the `word_vectors.most_similar(positive=['woman', 'king'], negative=['man'])` call. The call will return the word with the embedding which is closest to the vector resulting from adding the embeddings in `positive` and subtracting the embeddings in `negative`.
+
+To visualize what the resulting vector should be, we will continue to work with the reduced 2D representations of the pretrained GloVe embeddings and first add the positive embeddings `woman` and `king` before subtracting the embedding of `man`.
+
+Fill in the following 2 lines to get
+1. the intermediate `woman + king` embedding
+2. the final `woman + king - man` embedding
+
+and run the cell to plot the original 4 vectors with the 2 newly calculated vectors.
+
 
 # COMMAND ----------
 
+|moo1
 TODO
 
 # Plots 4 vectors from graph above
@@ -117,36 +132,44 @@ plt.gcf().clear()
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Even though we reduced the embeddings down to 2 dimensions, what word does the resulting embedding still look the closest to? Does this match the answer that `word_vectors.most_similar(positive=['woman', 'king'], negative=['man'])` returns?
-# MAGIC 
-# MAGIC Note: Since vector addition and subtraction are commutative, you can change the order of the operations and see that the resulting `woman+king-man` vector still approximates the `queen` embedding.
+|moo1
+%md
+Even though we reduced the embeddings down to 2 dimensions, what word does the resulting embedding still look the closest to? Does this match the answer that `word_vectors.most_similar(positive=['woman', 'king'], negative=['man'])` returns?
+
+Note: Since vector addition and subtraction are commutative, you can change the order of the operations and see that the resulting `woman+king-man` vector still approximates the `queen` embedding.
+
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC 
-# MAGIC Now we are going to explore what exactly "similar" embeddings mean.
-# MAGIC 
-# MAGIC Recall the definition of cosine similarity from above:
-# MAGIC $$\text{CosineSimilarity }(u,v) = \cos(\text{ angle between vectors }) = \frac{u \cdot v}{|u| |v|}$$
-# MAGIC 
-# MAGIC Run the following cell to see what the `gensim` default function returns for the similarity between `queen` and `king`.
+|moo1
+%md
+
+Now we are going to explore what exactly "similar" embeddings mean.
+
+Recall the definition of cosine similarity from above:
+$$\text{CosineSimilarity }(u,v) = \cos(\text{ angle between vectors }) = \frac{u \cdot v}{|u| |v|}$$
+
+Run the following cell to see what the `gensim` default function returns for the similarity between `queen` and `king`.
+
 
 # COMMAND ----------
 
+|moo1
 word_vectors.similarity("queen", "king")
 
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now fill in the following `cos_similarity` function to calculate the cosine similarity between 2 vectors (np arrays) of equal dimensions.
-# MAGIC 
-# MAGIC Hint: Take a look at some numpy functions.
+|moo1
+%md
+Now fill in the following `cos_similarity` function to calculate the cosine similarity between 2 vectors (np arrays) of equal dimensions.
+
+Hint: Take a look at some numpy functions.
+
 
 # COMMAND ----------
 
+|moo1
 TODO
 import numpy as np
 
@@ -163,13 +186,16 @@ assert round(ans, 3) == round(word_vectors.similarity(word1, word2), 3), "Your a
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Let's use the similarity measure that we implemented to be able to pick a word, out of an inputted list, that is "closest" to a given word.
-# MAGIC 
-# MAGIC Fill out the below function `most_similar` to return the word from `words` that has the closest cosine similarity to word `w`.
+|moo1
+%md
+Let's use the similarity measure that we implemented to be able to pick a word, out of an inputted list, that is "closest" to a given word.
+
+Fill out the below function `most_similar` to return the word from `words` that has the closest cosine similarity to word `w`.
+
 
 # COMMAND ----------
 
+|moo1
 TODO
 
 def most_similar(w, words):
@@ -181,13 +207,15 @@ most_similar("queen", ["king", "woman", "man", "princess"])
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC You can play around with the inputs to `most_similar` and see which words the GloVe embedding model treats has having similar semantic meanings.
+|moo1
+%md
+You can play around with the inputs to `most_similar` and see which words the GloVe embedding model treats has having similar semantic meanings.
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
-# MAGIC &copy; 2021 Databricks, Inc. All rights reserved.<br/>
-# MAGIC Apache, Apache Spark, Spark and the Spark logo are trademarks of the <a href="http://www.apache.org/">Apache Software Foundation</a>.<br/>
-# MAGIC <br/>
-# MAGIC <a href="https://databricks.com/privacy-policy">Privacy Policy</a> | <a href="https://databricks.com/terms-of-use">Terms of Use</a> | <a href="http://help.databricks.com/">Support</a>
+|moo1
+%md-sandbox
+&copy; 2021 Databricks, Inc. All rights reserved.<br/>
+Apache, Apache Spark, Spark and the Spark logo are trademarks of the <a href="http://www.apache.org/">Apache Software Foundation</a>.<br/>
+<br/>
+<a href="https://databricks.com/privacy-policy">Privacy Policy</a> | <a href="https://databricks.com/terms-of-use">Terms of Use</a> | <a href="http://help.databricks.com/">Support</a>|moo2
