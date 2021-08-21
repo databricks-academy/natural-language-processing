@@ -7,6 +7,7 @@
 
 # COMMAND ----------
 
+# MAGIC 
 # MAGIC %md
 # MAGIC # Using External Libraries with UDFs
 # MAGIC 
@@ -20,10 +21,12 @@
 
 # COMMAND ----------
 
+# MAGIC 
 # MAGIC %run ./Includes/Classroom-Setup
 
 # COMMAND ----------
 
+# MAGIC 
 # MAGIC %md
 # MAGIC ## Single-Machine Natural Language Processing Libraries
 # MAGIC 
@@ -40,6 +43,7 @@
 
 # COMMAND ----------
 
+# MAGIC 
 # MAGIC %md
 # MAGIC 
 # MAGIC ## User Defined Function (UDF)
@@ -53,6 +57,7 @@
 
 # COMMAND ----------
 
+# MAGIC 
 # MAGIC %md
 # MAGIC ## Stemming and Lemmatizing with NLTK
 # MAGIC 
@@ -61,6 +66,7 @@
 # MAGIC Another more involved process that attempts to change strings into more comparable forms is called **lemmatizing**. It tries to find the dictionary form - also called the lemma - of a word. This means the results of lemmatizing are real words that we recognize.
 
 # COMMAND ----------
+
 
 # Stemming vs Lemmatizing
 import nltk
@@ -77,24 +83,29 @@ word_forms = [(word, stemmer.stem(word), lemmatizer.lemmatize(word)) for word in
 for orig, stemmed, lemmatized in word_forms:
     print(f"Original: {orig}  \tStemmed: {stemmed} \tLemmatized:{lemmatized}")
 
+
 # COMMAND ----------
 
+# MAGIC 
 # MAGIC %md
 # MAGIC 
 # MAGIC Now that we understand the concept of stemming and lemmatizing and how to call a function as a UDF, we're going combine these skills to stem and lemmatize our reviews dataset's `CleanTokens` using the NLTK functions `PorterStemmer` and `WordNetLemmatizer`.
 
 # COMMAND ----------
 
+# MAGIC 
 # MAGIC %md
 # MAGIC 
 # MAGIC ### Stemming UDF
 
 # COMMAND ----------
 
+# MAGIC 
 # MAGIC %md
 # MAGIC In Spark 2.x, this is an example of how we can write UDFs.
 
 # COMMAND ----------
+
 
 from pyspark.sql.functions import col
 from pyspark.sql.types import ArrayType, StringType
@@ -110,8 +121,10 @@ def stem_udf(tokens):
 stemmedDF = processedDF.withColumn("StemTokens", stem_udf(col("CleanTokens")))
 display(stemmedDF.select("StemTokens", "CleanTokens").limit(2))
 
+
 # COMMAND ----------
 
+# MAGIC 
 # MAGIC %md
 # MAGIC ### Vectorized UDF
 # MAGIC 
@@ -130,6 +143,7 @@ display(stemmedDF.select("StemTokens", "CleanTokens").limit(2))
 
 # COMMAND ----------
 
+# MAGIC 
 # MAGIC %md
 # MAGIC On the left, this is how a function is applied to a series, e.g. `Series.apply(..., axis='index')`. On the right, `pandas_udf` is applying the function to a batch of `value`s. For instance, in our case, each `value` here is an array of strings or tokens.
 # MAGIC 
@@ -140,6 +154,7 @@ display(stemmedDF.select("StemTokens", "CleanTokens").limit(2))
 # MAGIC <img src="https://files.training.databricks.com/images/301/pandas_udf_1.png" height="600" width ="400">
 
 # COMMAND ----------
+
 
 from pyspark.sql.functions import pandas_udf
 import pandas as pd
@@ -154,8 +169,10 @@ def stem_udf(tokens_batch: pd.Series) -> pd.Series:
 stemmedDF = processedDF.withColumn("StemTokens", stem_udf(col("CleanTokens")))
 display(stemmedDF.select("StemTokens", "CleanTokens").limit(2))
 
+
 # COMMAND ----------
 
+# MAGIC 
 # MAGIC %md
 # MAGIC There is a new type of Pandas UDF in Spark 3.0+, called scalar iterator UDF.
 # MAGIC 
@@ -171,6 +188,7 @@ display(stemmedDF.select("StemTokens", "CleanTokens").limit(2))
 
 # COMMAND ----------
 
+
 from typing import Iterator
 
 @pandas_udf("ARRAY<STRING>")
@@ -182,14 +200,17 @@ def stem_scalar_udf(iterator: Iterator[pd.Series]) -> Iterator[pd.Series]:
 stemmedDF = processedDF.withColumn("StemTokens", stem_scalar_udf(col("CleanTokens")))
 display(stemmedDF.select("StemTokens", "CleanTokens").limit(2))
 
+
 # COMMAND ----------
 
+# MAGIC 
 # MAGIC %md
 # MAGIC ### Lab: Lemmatizing UDF
 # MAGIC 
-# MAGIC Now that you have seen the examples of stemming words using a UDF, a pandas UDF and also a scalar iterator UDF. It's your turn to write a UDF of any type that lemmatizes words!
+# MAGIC Now that you have seen the examples of stemming words using a UDF, a pandas UDF and also a scalar iterator UDF. It's your turn to write a UDF of any type that lemmatizes words! 
 
 # COMMAND ----------
+
 
 # ANSWER 
 ### Method 1 without using pandas_udf
@@ -205,7 +226,9 @@ def lemma_udf(tokens):
 lemmaDF = processedDF.withColumn("LemmaTokens", lemma_udf(col("CleanTokens")))
 display(lemmaDF.select("Tokens", "LemmaTokens").limit(2))
 
+
 # COMMAND ----------
+
 
 # ANSWER
 ### Method 2 using pandas_udf
@@ -220,7 +243,9 @@ def lemma_udf(tokens_batch: pd.Series) -> pd.Series:
 lemmaDF = processedDF.withColumn("LemmaTokens", lemma_udf(col("CleanTokens")))
 display(lemmaDF.select("LemmaTokens", "Tokens").limit(2))
 
+
 # COMMAND ----------
+
 
 # ANSWER
 ### Method 3 using scalar iterator udf 
@@ -234,7 +259,7 @@ def lemma_scalar_udf(iterator: Iterator[pd.Series]) -> Iterator[pd.Series]:
     
 ### add LemmaTokens column
 lemmaDF = processedDF.withColumn("LemmaTokens", lemma_scalar_udf(col("CleanTokens")))
-display(lemmaDF.select("LemmaTokens", "Tokens").limit(2))
+display(lemmaDF.select("LemmaTokens", "Tokens").limit(2))    
 
 # COMMAND ----------
 

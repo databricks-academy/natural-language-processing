@@ -8,15 +8,19 @@ warnings.filterwarnings("ignore")
 
 displayHTML("Preparing the learning environment...")
 
+
 # COMMAND ----------
 
+# MAGIC 
 # MAGIC %run "./Class-Utility-Methods"
 
 # COMMAND ----------
 
+# MAGIC 
 # MAGIC %run "./Dataset-Mounts"
 
 # COMMAND ----------
+
 
 def init_mlflow_as_job():
   import mlflow
@@ -29,14 +33,18 @@ def init_mlflow_as_job():
     
 init_mlflow_as_job()
 
+
 # COMMAND ----------
+
 
 courseType = "il"
 username = getUsername()
 userhome = getUserhome()
 workingDir = getWorkingDir(courseType).replace("_pil", "")
 
+
 # COMMAND ----------
+
 
 courseAdvertisements = dict()
 courseAdvertisements["username"] = (

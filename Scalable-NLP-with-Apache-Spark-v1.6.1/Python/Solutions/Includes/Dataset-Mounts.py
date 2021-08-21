@@ -199,6 +199,7 @@
 
 # COMMAND ----------
 
+
 def getAzureDataSource():
   datasource = spark.conf.get("com.databricks.training.azure.datasource").split("\t")
   source = datasource[0]

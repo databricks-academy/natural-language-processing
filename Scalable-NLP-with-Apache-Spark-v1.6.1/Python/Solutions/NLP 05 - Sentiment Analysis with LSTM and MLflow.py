@@ -7,6 +7,7 @@
 
 # COMMAND ----------
 
+# MAGIC 
 # MAGIC %md
 # MAGIC # Sentiment Analysis with LSTM and MLflow
 # MAGIC 
@@ -16,9 +17,11 @@
 
 # COMMAND ----------
 
+# MAGIC 
 # MAGIC %run ./Includes/Classroom-Setup
 
 # COMMAND ----------
+
 
 from pyspark.sql.functions import col, when
 import numpy as np
@@ -30,51 +33,68 @@ import pandas as pd
 import mlflow
 import mlflow.tensorflow
 
+
 # COMMAND ----------
+
 
 text_df = (spark.read.parquet("/mnt/training/reviews/reviews_cleaned.parquet")
            .select("Text", "Score")
            .limit(5000) ### limit to only 5000 rows to reduce training time
           )
 
+
 # COMMAND ----------
+
 
 ### Ensure that there are no missing values
 text_df.filter(col("Score").isNull()).count()
 
+
 # COMMAND ----------
+
 
 text_df = text_df.withColumn("sentiment", when(col("Score") > 3, 1).otherwise(0))
 display(text_df)
 
+
 # COMMAND ----------
+
 
 positive_review_percent = text_df.filter(col("sentiment") == 1).count() / text_df.count() * 100
 print(f"{positive_review_percent}% of reviews are positive")
 
+
 # COMMAND ----------
+
 
 (train_df, test_df) = text_df.randomSplit([0.8, 0.2])
 
+
 # COMMAND ----------
+
 
 train_positive_review_percent = train_df.filter(col("sentiment") == 1).count() / train_df.count() * 100
 test_positive_review_percent = test_df.filter(col("sentiment") == 1).count() / test_df.count() * 100
 print(f"{train_positive_review_percent}% of reviews in the train_df are positive")
 print(f"{test_positive_review_percent}% of reviews in the test_df are positive")
 
+
 # COMMAND ----------
+
 
 train_pdf = train_df.toPandas()
 X_train = train_pdf["Text"].values
 y_train = train_pdf["sentiment"].values
 
+
 # COMMAND ----------
 
+# MAGIC 
 # MAGIC %md
 # MAGIC ### Tokenization
 
 # COMMAND ----------
+
 
 vocab_size = 10000
 tokenizer = Tokenizer(num_words=vocab_size)
@@ -82,12 +102,15 @@ tokenizer.fit_on_texts(X_train)
 ### convert the texts to sequences
 X_train_seq = tokenizer.texts_to_sequences(X_train)
 
+
 # COMMAND ----------
 
+# MAGIC 
 # MAGIC %md
 # MAGIC Now, let's compute some basic statistics to understand our training data more!
 
 # COMMAND ----------
+
 
 l = [len(i) for i in X_train_seq]
 l = np.array(l)
@@ -96,29 +119,37 @@ print(f"median number of words: {np.median(l)}")
 print(f"average number of words: {l.mean()}")
 print(f"maximum number of words: {l.max()}")
 
+
 # COMMAND ----------
+
 
 print(X_train[0])
 print("\n")
 ### The text gets converted to a list of integers
 print(X_train_seq[0])
 
+
 # COMMAND ----------
 
+# MAGIC 
 # MAGIC %md
 # MAGIC ### Padding
 
 # COMMAND ----------
 
+
 max_length = 800
 X_train_seq_padded = pad_sequences(X_train_seq, maxlen=max_length)
 
+
 # COMMAND ----------
 
+# MAGIC 
 # MAGIC %md
 # MAGIC ### Repeat the process of tokenization and padding for `test_df`
 
 # COMMAND ----------
+
 
 test_pdf = test_df.toPandas()
 X_test = test_pdf["Text"].values
@@ -126,8 +157,10 @@ y_test = test_pdf["sentiment"].values
 X_test_seq = tokenizer.texts_to_sequences(X_test)
 X_test_seq_padded = pad_sequences(X_test_seq, maxlen=max_length)
 
+
 # COMMAND ----------
 
+# MAGIC 
 # MAGIC %md
 # MAGIC ### Define bi-directional LSTM Architecture
 # MAGIC 
@@ -141,6 +174,7 @@ X_test_seq_padded = pad_sequences(X_test_seq, maxlen=max_length)
 # MAGIC <img src="https://www.researchgate.net/profile/Latifa-Nabila-Harfiya/publication/344751031/figure/fig2/AS:948365760155651@1603119425682/The-unfolded-architecture-of-Bidirectional-LSTM-BiLSTM-with-three-consecutive-steps.png" width=500>
 
 # COMMAND ----------
+
 
 embedding_dim = 128
 lstm_out = 64
@@ -160,12 +194,15 @@ outputs = layers.Dense(1, activation="sigmoid")(x)
 model = keras.Model(inputs, outputs)
 model.summary()
 
+
 # COMMAND ----------
 
+# MAGIC 
 # MAGIC %md
 # MAGIC ### Train LSTM and log using MLflow
 
 # COMMAND ----------
+
 
 mlflow.tensorflow.autolog()
 
@@ -181,18 +218,23 @@ with mlflow.start_run() as run:
             epochs=1, 
             validation_split=0.1)
 
+
 # COMMAND ----------
 
+# MAGIC 
 # MAGIC %md
 # MAGIC ### Evaluate on test_data
 
 # COMMAND ----------
 
+
 test_loss, test_auc = model.evaluate(X_test_seq_padded, y_test, verbose=False)
 print(f"Test loss is {test_loss}. Test AUC is {test_auc}")
 
+
 # COMMAND ----------
 
+# MAGIC 
 # MAGIC %md
 # MAGIC ### Make inference at scale using `mlflow.pyfunc.spark_udf`
 # MAGIC 
@@ -200,12 +242,15 @@ print(f"Test loss is {test_loss}. Test AUC is {test_auc}")
 
 # COMMAND ----------
 
+
 logged_model = f"runs:/{run.info.run_id}/model"
 
 ### Load model as a Spark UDF
 loaded_model = mlflow.pyfunc.spark_udf(spark, model_uri=logged_model)
 
+
 # COMMAND ----------
+
 
 df = spark.createDataFrame(pd.concat([pd.DataFrame(data=y_test, columns=["label"]), 
                                       pd.DataFrame(X_test_seq_padded), 
@@ -215,12 +260,16 @@ pred_df = (df
            .select("text", "label", "predictions")
            .withColumn("predicted_label", when(col("predictions") > 0.5, 1).otherwise(0)))
 
+
 # COMMAND ----------
+
 
 display(pred_df)
 
+
 # COMMAND ----------
 
+# MAGIC 
 # MAGIC %md
 # MAGIC ## Lab
 # MAGIC 
@@ -236,6 +285,7 @@ display(pred_df)
 # MAGIC    - Note that a tag can be modified on the MLflow UI after it is logged, but parameters and metrics are non-editable.
 
 # COMMAND ----------
+
 
 # ANSWER
 with mlflow.start_run(run_id=run.info.run_id, experiment_id=run.info.experiment_id):
