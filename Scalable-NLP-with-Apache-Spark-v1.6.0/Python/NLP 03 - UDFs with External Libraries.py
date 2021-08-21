@@ -1,5 +1,4 @@
 # Databricks notebook source
-# MAGIC 
 # MAGIC %md-sandbox
 # MAGIC 
 # MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">
@@ -233,8 +232,7 @@ def lemma_scalar_udf(iterator: Iterator[pd.Series]) -> Iterator[pd.Series]:
     
 ## add LemmaTokens column
 lemmaDF = processedDF.withColumn("LemmaTokens", lemma_scalar_udf(col("CleanTokens")))
-display(lemmaDF.select("LemmaTokens", "Tokens").limit(2))    
-
+display(lemmaDF.select("LemmaTokens", "Tokens").limit(2))
 
 # COMMAND ----------
 
