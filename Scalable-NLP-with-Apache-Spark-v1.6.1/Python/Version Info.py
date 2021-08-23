@@ -1,9 +1,10 @@
 # Databricks notebook source
-# MAGIC %md-sandbox
-# MAGIC 
-# MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">
-# MAGIC   <img src="https://databricks.com/wp-content/uploads/2018/03/db-academy-rgb-1200px.png" alt="Databricks Learning" style="width: 600px">
-# MAGIC </div>
+# Moo# MAGIC
+%md-sandbox
+
+<div style="text-align: center; line-height: 0; padding-top: 9px;">
+  <img src="https://databricks.com/wp-content/uploads/2018/03/db-academy-rgb-1200px.png" alt="Databricks Learning" style="width: 600px">
+</div>
 
 # COMMAND ----------
 
@@ -11,7 +12,7 @@
 # MAGIC 
 # MAGIC * Name: **Scalable NLP with Apache Spark**
 # MAGIC * Version:  **1.6.1**
-# MAGIC * Built On: **Aug 23, 2021 at 18:48:47 UTC**
+# MAGIC * Built On: **Aug 23, 2021 at 19:09:28 UTC**
 
 # COMMAND ----------
 
