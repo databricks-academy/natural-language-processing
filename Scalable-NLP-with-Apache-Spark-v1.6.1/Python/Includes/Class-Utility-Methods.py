@@ -400,4 +400,4 @@ class FILL_IN:
 
 
 displayHTML("Defining courseware-specific utility methods...")
-# Moo
+

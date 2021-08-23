@@ -55,4 +55,4 @@ courseAdvertisements["workingDir"] = (
     "No additional information was provided.",
 )
 allDone(courseAdvertisements)
-# Moo
+
