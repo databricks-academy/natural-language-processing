@@ -207,4 +207,5 @@ def getAzureDataSource():
   return (source, sasEntity, sasToken)
 
 
-None # Suppress output# Moo
+None # Suppress output
+# Moo

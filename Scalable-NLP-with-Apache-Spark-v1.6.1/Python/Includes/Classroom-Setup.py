@@ -54,4 +54,5 @@ courseAdvertisements["workingDir"] = (
     workingDir,
     "No additional information was provided.",
 )
-allDone(courseAdvertisements)# Moo
+allDone(courseAdvertisements)
+# Moo
