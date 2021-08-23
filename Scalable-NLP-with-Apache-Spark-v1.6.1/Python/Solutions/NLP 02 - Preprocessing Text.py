@@ -132,7 +132,7 @@ spark_df = tokenizer.transform(text_df)
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC To achieve the same result using Python's `.split()` in series, we have to first convert our Spark DataFrame to a Pandas DataFrame which we call `textPDF`.
+# MAGIC To achieve the same result using Python's `.split()` in series, we have to first convert our Spark DataFrame to a Pandas DataFrame which we call `textPDF`. 
 
 # COMMAND ----------
 
