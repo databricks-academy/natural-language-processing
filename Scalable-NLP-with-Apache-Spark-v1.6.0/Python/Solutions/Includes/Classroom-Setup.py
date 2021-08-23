@@ -1,5 +1,4 @@
 # Databricks notebook source
-
 spark.conf.set("com.databricks.training.module-name", "nlp")
 
 # filter out warnings from python
