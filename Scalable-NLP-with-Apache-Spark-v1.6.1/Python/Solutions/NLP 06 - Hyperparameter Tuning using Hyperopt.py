@@ -1,5 +1,4 @@
 # Databricks notebook source
-# MAGIC  
 # MAGIC 
 # MAGIC %md-sandbox
 # MAGIC 

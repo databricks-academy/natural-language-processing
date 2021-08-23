@@ -1,5 +1,4 @@
 # Databricks notebook source
- 
 # Class Utility Methods
 
 #############################################
