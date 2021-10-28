@@ -29,7 +29,7 @@
 # MAGIC * Web browser: **Chrome**
 # MAGIC 
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) Cluster Requirements
-# MAGIC * A cluster configured with **DBR 8.4 ML**
+# MAGIC * See your instructor for specific requirements
 
 # COMMAND ----------
 

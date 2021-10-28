@@ -81,6 +81,8 @@ X_test_seq_padded = pad_sequences(X_test_seq, maxlen=max_length)
 # COMMAND ----------
 
 def create_lstm(hpo):
+  from tensorflow.keras import layers ## Include imports due to TF serialization issues
+  from tensorflow import keras
   ### Below is a slightly simplified architecture compared to the previous notebook to save time 
   embedding_dim = 64
   lstm_out = 32 
@@ -120,9 +122,8 @@ def run_lstm(hpo):
                        epochs=int(hpo["num_epoch"]), 
                        validation_split=0.1)
 
-  ### Since we would like to maximize AUC, we need to add the negative sign
   obj_metric = history.history["loss"][-1]
-  return {"loss": -obj_metric, "status": STATUS_OK}
+  return {"loss": obj_metric, "status": STATUS_OK}
 
 # COMMAND ----------
 

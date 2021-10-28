@@ -1,4 +1,12 @@
 # Databricks notebook source
+import sys
+
+# Suggested fix from Jason Kim & Ka-Hing Cheung
+# https://databricks.atlassian.net/browse/ES-176458
+wsfsPaths = list(filter(lambda p : p.startswith("/Workspace"), sys.path))
+defaultPaths = list(filter(lambda p : not p.startswith("/Workspace"), sys.path))
+sys.path = defaultPaths + wsfsPaths
+
 spark.conf.set("com.databricks.training.module-name", "nlp")
 
 # filter out warnings from python
